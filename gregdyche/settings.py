@@ -124,3 +124,9 @@ CSRF_TRUSTED_ORIGINS = [
     'https://gregdyche.com',
     'https://www.gregdyche.com',
 ]
+
+# Session and CSRF fixes for Railway
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SAMESITE = 'Lax'
