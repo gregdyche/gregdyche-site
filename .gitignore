@@ -40,6 +40,8 @@ Thumbs.db
 .env.local
 .env.production
 local_settings.py
+gregdyche/settings.py
+
 
 # Database
 db.sqlite3
