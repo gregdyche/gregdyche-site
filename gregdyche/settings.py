@@ -116,3 +116,11 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# CSRF trusted origins for Railway
+CSRF_TRUSTED_ORIGINS = [
+    'https://site-setup-production.up.railway.app',
+    'https://*.railway.app',
+    'https://gregdyche.com',
+    'https://www.gregdyche.com',
+]
