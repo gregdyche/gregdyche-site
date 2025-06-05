@@ -13,11 +13,23 @@ Class-based views
 Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
+
 
 from django.contrib import admin
 from django.urls import path
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+]
+"""
+
+# Add these lines to your gregdyche/urls.py file:
+
+from django.contrib import admin
+from django.urls import path
+from blog.views import simple_login  # Add this import
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('simple-login/', simple_login, name='simple_login'),  # Add this line
 ]
