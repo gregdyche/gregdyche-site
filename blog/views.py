@@ -1,7 +1,3 @@
-from django.shortcuts import render
-
-# Create your views here.
-# Let's create a simple test login view to bypass Django admin's form
 # Add this to your blog/views.py file:
 
 from django.http import HttpResponse
@@ -31,7 +27,3 @@ def simple_login(request):
     </form>
     <p><a href="/admin/">Go to Admin</a></p>
     """)
-
-# Then add this URL to your main gregdyche/urls.py:
-# from blog.views import simple_login
-# path('simple-login/', simple_login, name='simple_login'),
