@@ -1,36 +1,55 @@
-# Add these lines to your gregdyche/settings.py file
+# gregdyche/settings.py
 
 import os
 from pathlib import Path
-from decouple import config, Csv
+from decouple import config
 import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY', default='django-insecure-fallback-key-for-development')
+# --- Core Security Settings ---
+
+# SECRET_KEY is loaded from the .env file or environment variables.
+# IMPORTANT: Keep this key secret in production!
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-fallback-key-for-local-development')
+
+# DEBUG is set to False in production for security.
+# It is loaded from the environment, defaulting to True for local dev.
+DEBUG = config('DEBUG', default=False, cast=bool)
+
+# --- Host and Origin Configuration ---
+
+# ALLOWED_HOSTS defines which domains can serve the Django site.
+# We start with any custom domains, loaded from an env variable.
+# Example: 'www.gregdyche.com,gregdyche.com'
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='', cast=lambda v: [s.strip() for s in v.split(',')])
+
+# In production on Railway, we add the service domains automatically.
+if not DEBUG:
+    ALLOWED_HOSTS.extend([
+        '.railway.app',
+        '.up.railway.app'
+    ])
+    # Add Railway's internal domain for health checks.
+    RAILWAY_INTERNAL_HOSTNAME = os.environ.get('RAILWAY_INTERNAL_HOSTNAME')
+    if RAILWAY_INTERNAL_HOSTNAME:
+        ALLOWED_HOSTS.append(RAILWAY_INTERNAL_HOSTNAME)
 
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=True, cast=bool)
-
-# Allowed hosts
-ALLOWED_HOSTS = [
-    'site-setup-production.up.railway.app',  # Your public domain
-]
-
-# Add Railway's internal domain for health checks
-RAILWAY_INTERNAL_HOSTNAME = os.environ.get('RAILWAY_INTERNAL_HOSTNAME')
-if RAILWAY_INTERNAL_HOSTNAME:
-    ALLOWED_HOSTS.append(RAILWAY_INTERNAL_HOSTNAME)
+# CSRF_TRUSTED_ORIGINS must include the URLs that will be making POST requests.
+# This is crucial for the login form to work in production.
+# We'll use the same ALLOWED_HOSTS for simplicity, formatted as URLs.
+CSRF_TRUSTED_ORIGINS = [f"https://{host}" for host in ALLOWED_HOSTS if host.startswith('.')]
+# Also add custom domains with https
+custom_hosts = config('ALLOWED_HOSTS', default='').split(',')
+for host in custom_hosts:
+    if host:
+        CSRF_TRUSTED_ORIGINS.append(f"https://{host.strip()}")
 
 
-# Add Railway domains automatically
-if 'RAILWAY_ENVIRONMENT' in os.environ:
-    ALLOWED_HOSTS.extend(['.railway.app', '.up.railway.app'])
+# --- Application Definition ---
 
-# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -42,8 +61,11 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    # SecurityMiddleware should be near the top.
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # For static files on Railway
+    # WhiteNoise serves static files efficiently in production.
+    # It should be placed directly after SecurityMiddleware.
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -72,83 +94,69 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'gregdyche.wsgi.application'
 
-# Database configuration for Railway
-if config('DATABASE_URL', default=None):
-    DATABASES = {
-        'default': dj_database_url.parse(config('DATABASE_URL'))
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+# --- Database Configuration ---
 
-# Password validation
+# Use dj_database_url to connect to the Railway database service.
+# Fallback to a local sqlite3 database if DATABASE_URL is not set.
+DATABASES = {
+    'default': dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600
+    )
+}
+
+# --- Password Validation ---
+
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# Internationalization
+# --- Internationalization ---
+
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'America/Chicago'  # Omaha timezone
+TIME_ZONE = 'America/Chicago'
 USE_I18N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images) - FIXED FOR RAILWAY
+# --- Static & Media Files ---
+
+# URL to use when referring to static files.
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'  # This was missing!
-
-# Additional static files directories (if you have custom static files)
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-] if os.path.exists(BASE_DIR / 'static') else []
-
-# WhiteNoise configuration for better static file serving
+# The absolute path to the directory where collectstatic will gather static files.
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+# Tell Django to use WhiteNoise for serving static files in production.
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Media files
+# URL for user-uploaded media files.
 MEDIA_URL = '/media/'
+# Directory for storing user-uploaded media files.
+# Note: This is not suitable for production on ephemeral filesystems like Railway.
+# Consider using a service like AWS S3 for production media storage.
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# Default primary key field type
+
+# --- Default Primary Key ---
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# CSRF trusted origins for Railway
-CSRF_TRUSTED_ORIGINS = [
-    'https://site-setup-production.up.railway.app',
-    'https://*.railway.app',
-    'https://gregdyche.com',
-    'https://www.gregdyche.com',
-]
 
-# Session and CSRF fixes for Railway
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-#SESSION_COOKIE_SAMESITE = 'Lax'
-#CSRF_COOKIE_SAMESITE = 'Lax'
+# --- Production Security Settings (Proxy Configuration) ---
+# These are critical for running behind a reverse proxy like Railway's.
 
-# Additional session settings for Railway
-SESSION_COOKIE_DOMAIN = None  # Let Django auto-detect
-SESSION_COOKIE_NAME = 'sessionid'
-SESSION_COOKIE_PATH = '/'
-SESSION_SAVE_EVERY_REQUEST = True
-SESSION_EXPIRE_AT_BROWSER_CLOSE = False
-SESSION_COOKIE_AGE = 86400  # 24 hours
-SESSION_COOKIE_HTTPONLY = True
+if not DEBUG:
+    # Tell Django to trust the 'X-Forwarded-Proto' header from the proxy.
+    # This is essential for recognizing HTTPS connections and for CSRF to work.
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-# Additional CSRF settings
-#CSRF_COOKIE_HTTPONLY = True
-#CSRF_USE_SESSIONS = True  # Store CSRF token in session instead of cookie
+    # Enforce that session and CSRF cookies are only sent over HTTPS.
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+
+    # It's also a good practice to enable HSTS (HTTP Strict Transport Security)
+    # SECURE_HSTS_SECONDS = 31536000 # 1 year
+    # SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    # SECURE_HSTS_PRELOAD = True
+
