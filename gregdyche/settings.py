@@ -16,7 +16,15 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-fallback-key-for-deve
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 # Allowed hosts
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=Csv())
+ALLOWED_HOSTS = [
+    'site-setup-production.up.railway.app',  # Your public domain
+]
+
+# Add Railway's internal domain for health checks
+RAILWAY_INTERNAL_HOSTNAME = os.environ.get('RAILWAY_INTERNAL_HOSTNAME')
+if RAILWAY_INTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RAILWAY_INTERNAL_HOSTNAME)
+
 
 # Add Railway domains automatically
 if 'RAILWAY_ENVIRONMENT' in os.environ:
