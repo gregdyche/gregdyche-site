@@ -137,8 +137,8 @@ CSRF_TRUSTED_ORIGINS = [
 # Session and CSRF fixes for Railway
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SAMESITE = 'Lax'
-CSRF_COOKIE_SAMESITE = 'Lax'
+#SESSION_COOKIE_SAMESITE = 'Lax'
+#CSRF_COOKIE_SAMESITE = 'Lax'
 
 # Additional session settings for Railway
 SESSION_COOKIE_DOMAIN = None  # Let Django auto-detect
@@ -150,5 +150,5 @@ SESSION_COOKIE_AGE = 86400  # 24 hours
 SESSION_COOKIE_HTTPONLY = True
 
 # Additional CSRF settings
-CSRF_COOKIE_HTTPONLY = True
-CSRF_USE_SESSIONS = True  # Store CSRF token in session instead of cookie
+#CSRF_COOKIE_HTTPONLY = True
+#CSRF_USE_SESSIONS = True  # Store CSRF token in session instead of cookie
