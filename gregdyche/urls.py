@@ -7,7 +7,12 @@ The `urlpatterns` list routes URLs to views. For more information please see:
 
 from django.contrib import admin
 from django.urls import path
+from django.http import HttpResponse
+
+def home(request):
+    return HttpResponse("Hello, Greg. This is your Railway app.")
 
 urlpatterns = [
+    path('', home),
     path('admin/', admin.site.urls),
 ]
