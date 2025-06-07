@@ -40,12 +40,15 @@ if not DEBUG:
 # CSRF_TRUSTED_ORIGINS must include the URLs that will be making POST requests.
 # This is crucial for the login form to work in production.
 # We'll use the same ALLOWED_HOSTS for simplicity, formatted as URLs.
-CSRF_TRUSTED_ORIGINS = [f"https://{host}" for host in ALLOWED_HOSTS if host.startswith('.')]
-# Also add custom domains with https
-custom_hosts = config('ALLOWED_HOSTS', default='').split(',')
-for host in custom_hosts:
-    if host:
-        CSRF_TRUSTED_ORIGINS.append(f"https://{host.strip()}")
+CSRF_TRUSTED_ORIGINS = [
+    'https://site-setup-production.up.railway.app'
+]
+
+# If you have a custom domain, add it here from your environment variables
+CUSTOM_DOMAIN = config('CUSTOM_DOMAIN', default=None)
+if CUSTOM_DOMAIN:
+    CSRF_TRUSTED_ORIGINS.append(f"https://{CUSTOM_DOMAIN}")
+
 
 
 # --- Application Definition ---
