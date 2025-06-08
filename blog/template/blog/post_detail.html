@@ -1,0 +1,5 @@
+<h1>{{ post.title }}</h1>
+<p>Published on: {{ post.published_date|date:"F j, Y" }}</p>
+<div>
+    {{ post.content|safe }}
+</div>
