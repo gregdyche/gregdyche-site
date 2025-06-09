@@ -27,15 +27,14 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='', cast=lambda v: [s.strip() fo
 
 # In production on Railway, we add the service domains automatically.
 if not DEBUG:
-    ALLOWED_HOSTS.extend([
-        '.railway.app',
-        '.up.railway.app'
-    ])
-    # Add Railway's internal domain for health checks.
-    RAILWAY_INTERNAL_HOSTNAME = os.environ.get('RAILWAY_INTERNAL_HOSTNAME')
-    if RAILWAY_INTERNAL_HOSTNAME:
-        ALLOWED_HOSTS.append(RAILWAY_INTERNAL_HOSTNAME)
-
+    RAILWAY_URL = config('RAILWAY_STATIC_URL', default=None)
+    if RAILWAY_URL:
+        # The RAILWAY_STATIC_URL is in the format "https-site-production.up.railway.app"
+        # We need to extract the hostname
+        RAILWAY_HOSTNAME = RAILWAY_URL.split('//')[1]
+        ALLOWED_HOSTS.append(RAILWAY_HOSTNAME)
+        # Also add the CSRF trusted origin
+        CSRF_TRUSTED_ORIGINS = [f"https://{RAILWAY_HOSTNAME}"]
 
 # CSRF_TRUSTED_ORIGINS must include the URLs that will be making POST requests.
 # This is crucial for the login form to work in production.
@@ -82,7 +81,7 @@ ROOT_URLCONF = 'gregdyche.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'blog/templates')], # Add this line
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

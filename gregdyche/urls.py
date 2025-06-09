@@ -14,7 +14,7 @@ from django.conf import settings
 
 # This function must be defined to be used below
 def home(request):
-    return HttpResponse("Hello, Greg. This is your Railway app.")
+    return HttpResponse("Hello, Greg. This is your June 9th Railway app.")
 
 # This function must also be defined to be used below
 def debug_view(request):
@@ -37,7 +37,7 @@ def debug_view(request):
 
 
 urlpatterns = [
-    path('', home),
+    path('', home, name='home'),
     path('admin/', admin.site.urls),
     path('debug-view/', debug_view, name='debug_view'),
     path('blog/', include('blog.urls', namespace='blog')),
