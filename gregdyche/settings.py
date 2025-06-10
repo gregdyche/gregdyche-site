@@ -23,7 +23,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 # ALLOWED_HOSTS defines which domains can serve the Django site.
 # We start with any custom domains, loaded from an env variable.
 # Example: 'www.gregdyche.com,gregdyche.com'
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='', cast=lambda v: [s.strip() for s in v.split(',')])
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='', cast=lambda v: [s.strip() for s in v.split(',') if s.strip()])
 
 # In production on Railway, we add the service domains automatically.
 if not DEBUG:
