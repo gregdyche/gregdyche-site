@@ -29,9 +29,11 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='', cast=lambda v: [s.strip() fo
 if not DEBUG:
     RAILWAY_URL = config('RAILWAY_STATIC_URL', default=None)
     if RAILWAY_URL:
-        # The RAILWAY_STATIC_URL is in the format "https-site-production.up.railway.app"
-        # We need to extract the hostname
-        RAILWAY_HOSTNAME = RAILWAY_URL.split('//')[1]
+        # The RAILWAY_STATIC_URL might be in format "https://domain" or just "domain"
+        if '//' in RAILWAY_URL:
+            RAILWAY_HOSTNAME = RAILWAY_URL.split('//')[1]
+        else:
+            RAILWAY_HOSTNAME = RAILWAY_URL
         ALLOWED_HOSTS.append(RAILWAY_HOSTNAME)
         # Also add the CSRF trusted origin
         CSRF_TRUSTED_ORIGINS = [f"https://{RAILWAY_HOSTNAME}"]
