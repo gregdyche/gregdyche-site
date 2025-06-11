@@ -11,10 +11,11 @@ from django.contrib import admin
 from django.urls import path, include
 from django.http import HttpResponse
 from django.conf import settings
+from django.shortcuts import redirect
 
 # This function must be defined to be used below
 def home(request):
-    return HttpResponse("Hello, Greg. This is your June 9th Railway app.")
+    return redirect('blog:page_detail', slug='well-scripted-life-by-greg-dyche')
 
 # This function must also be defined to be used below
 def debug_view(request):
