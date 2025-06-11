@@ -1,4 +1,67 @@
-<h1>{{ page.title }}</h1>
-<div>
-    {{ page.content|safe }}
+{% extends "blog/base.html" %}
+
+{% block title %}{{ page.title }} - Greg Dyche{% endblock %}
+
+{% block description %}{{ page.content|striptags|truncatewords:25 }}{% endblock %}
+
+{% block content %}
+<div class="container mt-8">
+    <!-- Hero Section for Landing Page -->
+    {% if page.slug == "well-scripted-life-by-greg-dyche" %}
+    <section class="hero">
+        <h1 class="hero-title">{{ page.title }}</h1>
+        <p class="hero-subtitle">Modern insights on technology, education, and life optimization</p>
+    </section>
+    {% endif %}
+    
+    <!-- Main Content Card -->
+    <div class="grid grid-cols-1">
+        <article class="card">
+            {% if page.slug != "well-scripted-life-by-greg-dyche" %}
+            <header class="card-header">
+                <h1 class="card-title">{{ page.title }}</h1>
+                {% if page.published_date %}
+                <p class="card-subtitle">Published {{ page.published_date|date:"F j, Y" }}</p>
+                {% endif %}
+            </header>
+            {% endif %}
+            
+            <div class="card-content">
+                {{ page.content|safe }}
+            </div>
+        </article>
+    </div>
+    
+    <!-- Related Content or Navigation -->
+    {% if page.slug == "well-scripted-life-by-greg-dyche" %}
+    <section class="mt-12">
+        <h2 class="text-center mb-8" style="font-size: 2rem; font-weight: 700; color: var(--text-primary);">Featured Content</h2>
+        <div class="grid grid-cols-3">
+            <a href="/blog/page/downloads/" class="card card-clickable">
+                <div class="card-header">
+                    <h3 class="card-title">Downloads</h3>
+                    <p class="card-subtitle">Resources & Tools</p>
+                </div>
+                <p class="card-content">Access presentations, workbooks, and educational materials.</p>
+            </a>
+            
+            <a href="/blog/page/emerging-technology/" class="card card-clickable">
+                <div class="card-header">
+                    <h3 class="card-title">Emerging Technology</h3>
+                    <p class="card-subtitle">Tech Insights</p>
+                </div>
+                <p class="card-content">Explore the latest in technology and digital transformation.</p>
+            </a>
+            
+            <a href="/blog/page/slow-and-faithful/" class="card card-clickable">
+                <div class="card-header">
+                    <h3 class="card-title">Slow and Faithful</h3>
+                    <p class="card-subtitle">Philosophy</p>
+                </div>
+                <p class="card-content">Reflections on intentional living and sustainable progress.</p>
+            </a>
+        </div>
+    </section>
+    {% endif %}
 </div>
+{% endblock %}

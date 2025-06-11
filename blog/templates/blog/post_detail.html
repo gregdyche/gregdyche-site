@@ -1,5 +1,27 @@
-<h1>{{ post.title }}</h1>
-<p>Published on: {{ post.published_date|date:"F j, Y" }}</p>
-<div>
-    {{ post.content|safe }}
+{% extends "blog/base.html" %}
+
+{% block title %}{{ post.title }} - Greg Dyche{% endblock %}
+
+{% block description %}{{ post.content|striptags|truncatewords:25 }}{% endblock %}
+
+{% block content %}
+<div class="container mt-8">
+    <div class="grid grid-cols-1">
+        <article class="card">
+            <header class="card-header">
+                <h1 class="card-title">{{ post.title }}</h1>
+                <p class="card-subtitle">Published {{ post.published_date|date:"F j, Y" }}</p>
+            </header>
+            
+            <div class="card-content">
+                {{ post.content|safe }}
+            </div>
+        </article>
+    </div>
+    
+    <!-- Navigation back to home -->
+    <div class="text-center mt-8">
+        <a href="/" class="btn btn-secondary">← Back to Home</a>
+    </div>
 </div>
+{% endblock %}
