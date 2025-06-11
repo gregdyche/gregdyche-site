@@ -1,0 +1,177 @@
+{% extends "blog/base.html" %}
+
+{% block title %}{{ section_info.title }} - Greg Dyche{% endblock %}
+
+{% block description %}{{ section_info.description }}{% endblock %}
+
+{% block content %}
+<div class="container mt-8">
+    <!-- Section Header -->
+    <section class="hero">
+        <h1 class="hero-title">{{ section_info.title }}</h1>
+        <p class="hero-subtitle">{{ section_info.description }}</p>
+    </section>
+    
+    <!-- Posts Grid -->
+    {% if posts %}
+    <div class="mt-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {% for post in posts %}
+            <article class="card">
+                <header class="card-header">
+                    <h2 class="card-title">
+                        <a href="{{ post.get_absolute_url }}" style="text-decoration: none; color: inherit;">
+                            {{ post.title }}
+                        </a>
+                    </h2>
+                    <p class="card-subtitle">
+                        {% if post.published_date %}
+                            {{ post.published_date|date:"F j, Y" }}
+                        {% endif %}
+                        {% if post.categories.all %}
+                            • 
+                            {% for category in post.categories.all %}
+                                {{ category.name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </p>
+                </header>
+                
+                <div class="card-content">
+                    {% if post.excerpt %}
+                        {{ post.excerpt|truncatewords:25 }}
+                    {% else %}
+                        {{ post.content|striptags|truncatewords:25 }}
+                    {% endif %}
+                </div>
+                
+                <footer class="card-footer">
+                    <a href="{{ post.get_absolute_url }}" class="btn btn-primary">Read More</a>
+                </footer>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <!-- Pagination -->
+    {% if is_paginated %}
+    <div class="mt-12 text-center">
+        <div class="pagination-container">
+            {% if page_obj.has_previous %}
+                <a href="?page=1" class="btn btn-outline">&laquo; First</a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline">Previous</a>
+            {% endif %}
+            
+            <span class="pagination-info">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+            
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline">Next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-outline">Last &raquo;</a>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+    
+    {% else %}
+    <!-- Empty State -->
+    <div class="mt-12 text-center">
+        <div class="card" style="max-width: 500px; margin: 0 auto;">
+            <div class="card-content">
+                <h3 style="margin-bottom: 1rem;">Coming Soon</h3>
+                <p>Posts for this section are being organized and categorized. Check back soon for content about {{ section_info.subtitle|lower }}.</p>
+                <div style="margin-top: 2rem;">
+                    <a href="/" class="btn btn-primary">Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Section Navigation -->
+    <section class="mt-16">
+        <h3 class="text-center mb-8" style="font-size: 1.5rem; font-weight: 600; color: var(--text-primary);">Explore Other Sections</h3>
+        <div class="grid grid-cols-2">
+            {% if section != 'tech' %}
+            <a href="/blog/tech/" class="card card-clickable">
+                <div class="card-header">
+                    <h4 class="card-title">Technology Blog</h4>
+                    <p class="card-subtitle">Code, Tools & Innovation</p>
+                </div>
+            </a>
+            {% endif %}
+            
+            {% if section != 'life' %}
+            <a href="/blog/life/" class="card card-clickable">
+                <div class="card-header">
+                    <h4 class="card-title">Life Management</h4>
+                    <p class="card-subtitle">Systems & Productivity</p>
+                </div>
+            </a>
+            {% endif %}
+            
+            {% if section != 'spirit' %}
+            <a href="/blog/spirit/" class="card card-clickable">
+                <div class="card-header">
+                    <h4 class="card-title">Spiritual Growth</h4>
+                    <p class="card-subtitle">Faith & Reflection</p>
+                </div>
+            </a>
+            {% endif %}
+        </div>
+    </section>
+</div>
+
+<style>
+.pagination-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.pagination-info {
+    padding: 0.75rem 1rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.btn-outline {
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+.btn-outline:hover {
+    background: var(--hover-bg);
+    transform: translateY(-1px);
+}
+
+.card-footer {
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+    margin-top: 1rem;
+}
+</style>
+{% endblock %}

@@ -24,8 +24,11 @@
                 <a href="/" class="navbar-brand">Greg Dyche</a>
                 <ul class="navbar-nav">
                     <li><a href="/">Home</a></li>
-                    <li><a href="/blog/">Blog</a></li>
-                    <li><a href="/admin/">Admin</a></li>
+                    <li><a href="/blog/tech/">Tech Blog</a></li>
+                    <li><a href="/blog/life/">Life Blog</a></li>
+                    <li><a href="/blog/spirit/">Spirit Blog</a></li>
+                    <li><a href="/blog/page/about/">About</a></li>
+                    <li><a href="/blog/page/contact/">Contact</a></li>
                 </ul>
             </div>
         </div>
@@ -37,9 +40,37 @@
     </main>
 
     <!-- Footer -->
-    <footer style="margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--border-color); text-align: center; color: var(--text-muted);">
+    <footer style="margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--border-color); color: var(--text-muted);">
         <div class="container">
-            <p>&copy; 2024 Greg Dyche. Built with Django on Railway.</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+                <div>
+                    <h4 style="color: var(--text-primary); margin-bottom: 1rem;">Blog Sections</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: 0.5rem;"><a href="/blog/tech/" style="color: var(--text-muted); text-decoration: none;">Tech Blog</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="/blog/life/" style="color: var(--text-muted); text-decoration: none;">Life Blog</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="/blog/spirit/" style="color: var(--text-muted); text-decoration: none;">Spirit Blog</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="color: var(--text-primary); margin-bottom: 1rem;">Resources</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: 0.5rem;"><a href="/blog/page/downloads/" style="color: var(--text-muted); text-decoration: none;">Downloads</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="/blog/page/tech-stack/" style="color: var(--text-muted); text-decoration: none;">Tech Stack</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="/blog/page/workflows/" style="color: var(--text-muted); text-decoration: none;">Workflows</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="color: var(--text-primary); margin-bottom: 1rem;">Connect</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: 0.5rem;"><a href="/blog/page/about/" style="color: var(--text-muted); text-decoration: none;">About</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="/blog/page/contact/" style="color: var(--text-muted); text-decoration: none;">Contact</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="/blog/page/now/" style="color: var(--text-muted); text-decoration: none;">Now</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="text-align: center; padding-top: 2rem; border-top: 1px solid var(--border-color);">
+                <p>&copy; 2024 Greg Dyche. Built with Django on Railway.</p>
+            </div>
         </div>
     </footer>
 

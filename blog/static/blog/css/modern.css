@@ -47,6 +47,11 @@
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
+  
+  /* Interactive Colors */
+  --primary-color: var(--accent-purple);
+  --primary-hover: #7c3aed;
+  --hover-bg: rgba(255, 255, 255, 0.05);
 }
 
 /* Reset and Base Styles */

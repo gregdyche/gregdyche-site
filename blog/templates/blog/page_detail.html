@@ -9,8 +9,8 @@
     <!-- Hero Section for Landing Page -->
     {% if page.slug == "well-scripted-life-by-greg-dyche" %}
     <section class="hero">
-        <h1 class="hero-title">{{ page.title }}</h1>
-        <p class="hero-subtitle">Modern insights on technology, education, and life optimization</p>
+        <h1 class="hero-title">Welcome to Well Scripted Life</h1>
+        <p class="hero-subtitle">Modern insights on technology, education, and intentional living by Greg Dyche</p>
     </section>
     {% endif %}
     
@@ -32,10 +32,39 @@
         </article>
     </div>
     
-    <!-- Related Content or Navigation -->
+    <!-- Blog Sections Navigation -->
     {% if page.slug == "well-scripted-life-by-greg-dyche" %}
     <section class="mt-12">
-        <h2 class="text-center mb-8" style="font-size: 2rem; font-weight: 700; color: var(--text-primary);">Featured Content</h2>
+        <h2 class="text-center mb-8" style="font-size: 2rem; font-weight: 700; color: var(--text-primary);">Explore the Blog</h2>
+        <div class="grid grid-cols-3">
+            <a href="/blog/tech/" class="card card-clickable">
+                <div class="card-header">
+                    <h3 class="card-title">Technology Blog</h3>
+                    <p class="card-subtitle">Code, Tools & Innovation</p>
+                </div>
+                <p class="card-content">Python development, AI/ML insights, development workflows, and emerging technologies.</p>
+            </a>
+            
+            <a href="/blog/life/" class="card card-clickable">
+                <div class="card-header">
+                    <h3 class="card-title">Life Management</h3>
+                    <p class="card-subtitle">Systems & Productivity</p>
+                </div>
+                <p class="card-content">Personal workflows, productivity systems, education insights, and life optimization.</p>
+            </a>
+            
+            <a href="/blog/spirit/" class="card card-clickable">
+                <div class="card-header">
+                    <h3 class="card-title">Spiritual Growth</h3>
+                    <p class="card-subtitle">Faith & Reflection</p>
+                </div>
+                <p class="card-content">Thoughts on faith, intentional living, and finding meaning in daily life.</p>
+            </a>
+        </div>
+    </section>
+    
+    <section class="mt-12">
+        <h2 class="text-center mb-8" style="font-size: 2rem; font-weight: 700; color: var(--text-primary);">Quick Access</h2>
         <div class="grid grid-cols-3">
             <a href="/blog/page/downloads/" class="card card-clickable">
                 <div class="card-header">
@@ -45,20 +74,20 @@
                 <p class="card-content">Access presentations, workbooks, and educational materials.</p>
             </a>
             
-            <a href="/blog/page/emerging-technology/" class="card card-clickable">
+            <a href="/blog/page/tech-stack/" class="card card-clickable">
                 <div class="card-header">
-                    <h3 class="card-title">Emerging Technology</h3>
-                    <p class="card-subtitle">Tech Insights</p>
+                    <h3 class="card-title">Tech Stack</h3>
+                    <p class="card-subtitle">Tools & Setup</p>
                 </div>
-                <p class="card-content">Explore the latest in technology and digital transformation.</p>
+                <p class="card-content">My development environment, favorite tools, and technical workflows.</p>
             </a>
             
-            <a href="/blog/page/slow-and-faithful/" class="card card-clickable">
+            <a href="/blog/page/about/" class="card card-clickable">
                 <div class="card-header">
-                    <h3 class="card-title">Slow and Faithful</h3>
-                    <p class="card-subtitle">Philosophy</p>
+                    <h3 class="card-title">About Greg</h3>
+                    <p class="card-subtitle">Background & Philosophy</p>
                 </div>
-                <p class="card-content">Reflections on intentional living and sustainable progress.</p>
+                <p class="card-content">Learn about my background in education, technology, and life philosophy.</p>
             </a>
         </div>
     </section>
