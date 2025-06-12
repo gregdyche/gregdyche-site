@@ -25,6 +25,20 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 # Example: 'www.gregdyche.com,gregdyche.com'
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='', cast=lambda v: [s.strip() for s in v.split(',') if s.strip()])
 
+# Always add the Railway deployment domain
+ALLOWED_HOSTS.extend([
+    'site-setup-production.up.railway.app',
+    '*.up.railway.app',
+])
+
+# Add custom domains if configured
+CUSTOM_DOMAIN = config('CUSTOM_DOMAIN', default=None)
+if CUSTOM_DOMAIN:
+    ALLOWED_HOSTS.extend([
+        CUSTOM_DOMAIN,
+        f'www.{CUSTOM_DOMAIN}',
+    ])
+
 # In production on Railway, we add the service domains automatically.
 if not DEBUG:
     RAILWAY_URL = config('RAILWAY_STATIC_URL', default=None)
@@ -34,21 +48,21 @@ if not DEBUG:
             RAILWAY_HOSTNAME = RAILWAY_URL.split('//')[1]
         else:
             RAILWAY_HOSTNAME = RAILWAY_URL
-        ALLOWED_HOSTS.append(RAILWAY_HOSTNAME)
-        # Also add the CSRF trusted origin
-        CSRF_TRUSTED_ORIGINS = [f"https://{RAILWAY_HOSTNAME}"]
+        if RAILWAY_HOSTNAME not in ALLOWED_HOSTS:
+            ALLOWED_HOSTS.append(RAILWAY_HOSTNAME)
 
 # CSRF_TRUSTED_ORIGINS must include the URLs that will be making POST requests.
 # This is crucial for the login form to work in production.
-# We'll use the same ALLOWED_HOSTS for simplicity, formatted as URLs.
 CSRF_TRUSTED_ORIGINS = [
     'https://site-setup-production.up.railway.app'
 ]
 
-# If you have a custom domain, add it here from your environment variables
-CUSTOM_DOMAIN = config('CUSTOM_DOMAIN', default=None)
+# Add custom domain to CSRF trusted origins if configured
 if CUSTOM_DOMAIN:
-    CSRF_TRUSTED_ORIGINS.append(f"https://{CUSTOM_DOMAIN}")
+    CSRF_TRUSTED_ORIGINS.extend([
+        f"https://{CUSTOM_DOMAIN}",
+        f"https://www.{CUSTOM_DOMAIN}",
+    ])
 
 
 

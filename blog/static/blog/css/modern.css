@@ -426,9 +426,9 @@ body {
 }
 
 .toc-sidebar {
-  position: fixed;
-  top: 0;
-  right: -400px;
+  position: fixed !important;
+  top: 0 !important;
+  right: -400px !important;
   width: 400px;
   height: 100vh;
   background: var(--card-bg);
@@ -437,10 +437,11 @@ body {
   transition: right 0.3s ease;
   overflow-y: auto;
   box-shadow: var(--shadow-xl);
+  transform: translateX(0);
 }
 
 .toc-sidebar-open {
-  right: 0;
+  right: 0 !important;
 }
 
 .toc-header {
@@ -552,8 +553,12 @@ body {
 /* Mobile responsiveness for TOC */
 @media (max-width: 768px) {
   .toc-sidebar {
-    width: 100vw;
-    right: -100vw;
+    width: 100vw !important;
+    right: -100vw !important;
+  }
+  
+  .toc-sidebar-open {
+    right: 0 !important;
   }
   
   .toc-toggle {
