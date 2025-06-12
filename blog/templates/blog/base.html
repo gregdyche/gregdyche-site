@@ -29,10 +29,40 @@
                     <li><a href="/blog/spirit/">Spirit Blog</a></li>
                     <li><a href="/blog/page/about/">About</a></li>
                     <li><a href="/blog/page/contact/">Contact</a></li>
+                    <li><button id="toc-toggle" class="toc-toggle">Pages TOC</button></li>
                 </ul>
             </div>
         </div>
     </nav>
+
+    <!-- Table of Contents -->
+    <div id="toc-sidebar" class="toc-sidebar">
+        <div class="toc-header">
+            <h3>Pages</h3>
+            <button id="toc-close" class="toc-close">&times;</button>
+        </div>
+        <div class="toc-content">
+            {% for item in toc_data %}
+                <div class="toc-section">
+                    {% if item.category %}
+                        <h4 class="toc-category">{{ item.category.name }}</h4>
+                    {% else %}
+                        <h4 class="toc-category">Other Pages</h4>
+                    {% endif %}
+                    <ul class="toc-list">
+                        {% for page in item.pages %}
+                            <li class="toc-item">
+                                <a href="{{ page.get_absolute_url }}" class="toc-link">{{ page.title }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <!-- TOC Backdrop -->
+    <div id="toc-backdrop" class="toc-backdrop"></div>
 
     <!-- Main Content -->
     <main class="fade-in">
@@ -74,6 +104,39 @@
         </div>
     </footer>
 
+    <!-- TOC JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tocToggle = document.getElementById('toc-toggle');
+            const tocSidebar = document.getElementById('toc-sidebar');
+            const tocClose = document.getElementById('toc-close');
+            const tocBackdrop = document.getElementById('toc-backdrop');
+            
+            function openTOC() {
+                tocSidebar.classList.add('toc-sidebar-open');
+                tocBackdrop.classList.add('toc-backdrop-visible');
+                document.body.style.overflow = 'hidden';
+            }
+            
+            function closeTOC() {
+                tocSidebar.classList.remove('toc-sidebar-open');
+                tocBackdrop.classList.remove('toc-backdrop-visible');
+                document.body.style.overflow = '';
+            }
+            
+            tocToggle.addEventListener('click', openTOC);
+            tocClose.addEventListener('click', closeTOC);
+            tocBackdrop.addEventListener('click', closeTOC);
+            
+            // Close on escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && tocSidebar.classList.contains('toc-sidebar-open')) {
+                    closeTOC();
+                }
+            });
+        });
+    </script>
+    
     {% block extra_scripts %}{% endblock %}
 </body>
 </html>

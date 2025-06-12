@@ -1,6 +1,6 @@
 # blog/admin.py
 from django.contrib import admin
-from .models import Post, Page, Category, Tag, Comment
+from .models import Post, Page, PageCategory, Category, Tag, Comment
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
@@ -10,12 +10,19 @@ class PostAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     filter_horizontal = ['categories', 'tags']
 
+@admin.register(PageCategory)
+class PageCategoryAdmin(admin.ModelAdmin):
+    list_display = ['name', 'slug', 'order']
+    prepopulated_fields = {'slug': ('name',)}
+    ordering = ['order', 'name']
+
 @admin.register(Page)
 class PageAdmin(admin.ModelAdmin):
-    list_display = ['title', 'is_published', 'created_date']
-    list_filter = ['is_published', 'created_date']
+    list_display = ['title', 'category', 'toc_order', 'show_in_toc', 'is_published', 'created_date']
+    list_filter = ['category', 'show_in_toc', 'is_published', 'created_date']
     search_fields = ['title', 'content']
     prepopulated_fields = {'slug': ('title',)}
+    list_editable = ['toc_order', 'show_in_toc']
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):

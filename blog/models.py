@@ -81,11 +81,36 @@ class Post(models.Model):
     class Meta:
         ordering = ['-published_date', '-created_date']
 
+class PageCategory(models.Model):
+    """Categories for organizing pages in TOC"""
+    name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=100, unique=True, blank=True)
+    description = models.TextField(blank=True)
+    order = models.IntegerField(default=0, help_text="Order in TOC (lower = first)")
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+    
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        ordering = ['order', 'name']
+        verbose_name_plural = "Page Categories"
+
 class Page(models.Model):
     """Static pages like About, Contact, etc."""
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique=True, blank=True)
     content = models.TextField()
+    
+    # TOC organization
+    category = models.ForeignKey(PageCategory, on_delete=models.SET_NULL, null=True, blank=True, 
+                                help_text="Category for TOC organization")
+    toc_order = models.IntegerField(default=0, help_text="Order within category (lower = first)")
+    show_in_toc = models.BooleanField(default=True, help_text="Show this page in the TOC")
     
     # WordPress import fields
     wp_page_id = models.IntegerField(null=True, blank=True)
@@ -108,6 +133,9 @@ class Page(models.Model):
     
     def __str__(self):
         return self.title
+    
+    class Meta:
+        ordering = ['category__order', 'toc_order', 'title']
 
 class Comment(models.Model):
     """Comments from WordPress import"""
