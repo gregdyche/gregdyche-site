@@ -26,14 +26,11 @@ class BlogSectionView(ListView):
         
         # Filter by section based on categories
         if section == 'tech':
-            tech_categories = ['Technology', 'Python', 'Programming', 'AI', 'Development', 'Tech Stack']
-            queryset = queryset.filter(categories__name__in=tech_categories).distinct()
+            queryset = queryset.filter(categories__name='Tech').distinct()
         elif section == 'life':
-            life_categories = ['Life Management', 'Productivity', 'Education', 'Workflows', 'Personal']
-            queryset = queryset.filter(categories__name__in=life_categories).distinct()
+            queryset = queryset.filter(categories__name='Life').distinct()
         elif section == 'spirit':
-            spirit_categories = ['Spiritual', 'Faith', 'Philosophy', 'Reflection', 'Growth']
-            queryset = queryset.filter(categories__name__in=spirit_categories).distinct()
+            queryset = queryset.filter(categories__name='Spirit').distinct()
         
         return queryset.order_by('-published_date')
     
