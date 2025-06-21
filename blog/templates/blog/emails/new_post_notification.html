@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Post: {{ post.title }} - Well Scripted Life</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .email-container {
+            background: white;
+            border-radius: 8px;
+            padding: 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+        .header h1 {
+            margin: 0 0 10px 0;
+            font-size: 24px;
+        }
+        .header .tagline {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 16px;
+        }
+        .content {
+            padding: 30px;
+        }
+        .post-badge {
+            background: #f1f5f9;
+            color: #475569;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        .post-title {
+            color: #1e293b;
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+            line-height: 1.3;
+        }
+        .post-meta {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .post-categories {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .category-badge {
+            background: #8b5cf6;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        .post-excerpt {
+            color: #475569;
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 25px 0 30px 0;
+            padding: 20px;
+            background: #f8fafc;
+            border-left: 4px solid #8b5cf6;
+            border-radius: 0 8px 8px 0;
+        }
+        .cta-button {
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 8px;
+            display: inline-block;
+            font-weight: 600;
+            font-size: 16px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(139, 92, 246, 0.3);
+            transition: transform 0.2s ease;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(139, 92, 246, 0.4);
+        }
+        .footer {
+            background: #f8fafc;
+            padding: 25px 30px;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+        }
+        .footer-content {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .unsubscribe-link {
+            color: #8b5cf6;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .unsubscribe-link:hover {
+            text-decoration: underline;
+        }
+        .social-links {
+            margin: 15px 0;
+        }
+        .social-links a {
+            color: #64748b;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 14px;
+        }
+        @media (max-width: 600px) {
+            .post-title {
+                font-size: 24px;
+            }
+            .post-meta {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h1>Well Scripted Life</h1>
+            <p class="tagline">Technology, Life Management & Spiritual Growth</p>
+        </div>
+        
+        <div class="content">
+            <div class="post-badge">📝 New Blog Post</div>
+            
+            <h2 class="post-title">{{ post.title }}</h2>
+            
+            <div class="post-meta">
+                <span>📅 Published {{ post.published_date|date:"F j, Y" }}</span>
+                {% if post.categories.all %}
+                <div class="post-categories">
+                    {% for category in post.categories.all %}
+                        <span class="category-badge">{{ category.name }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            
+            {% if post.excerpt %}
+                <div class="post-excerpt">
+                    {{ post.excerpt|truncatewords:50 }}
+                </div>
+            {% else %}
+                <div class="post-excerpt">
+                    {{ post.content|striptags|truncatewords:50 }}
+                </div>
+            {% endif %}
+            
+            <div style="text-align: center;">
+                <a href="https://{{ domain }}{{ post.get_absolute_url }}" class="cta-button">
+                    Read Full Post →
+                </a>
+            </div>
+            
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">
+                <p>You're receiving this because you subscribed to 
+                {% if subscriber.tech and subscriber.life and subscriber.spirit %}
+                    all categories
+                {% else %}
+                    {% for category in post.categories.all %}
+                        {% if category.name == "Tech" and subscriber.tech %}Tech{% endif %}
+                        {% if category.name == "Life" and subscriber.life %}Life Management{% endif %}
+                        {% if category.name == "Spirit" and subscriber.spirit %}Spiritual Growth{% endif %}
+                    {% endfor %}
+                {% endif %}
+                updates from Well Scripted Life.
+                </p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="footer-content">
+                <p><strong>Thanks for being a subscriber!</strong></p>
+                <p>Keep learning, growing, and living intentionally.</p>
+                
+                <div class="social-links">
+                    <a href="https://{{ domain }}">Visit Blog</a> •
+                    <a href="https://{{ domain }}/blog/page/about/">About Greg</a> •
+                    <a href="https://{{ domain }}/blog/page/contact/">Contact</a>
+                </div>
+                
+                <p style="margin-top: 20px;">
+                    <a href="https://{{ domain }}/blog/unsubscribe/?email={{ subscriber.email }}" class="unsubscribe-link">
+                        Unsubscribe or manage preferences
+                    </a>
+                </p>
+                
+                <p style="font-size: 12px; color: #94a3b8; margin-top: 15px;">
+                    Well Scripted Life • {{ domain }}
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

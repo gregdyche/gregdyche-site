@@ -1,0 +1,25 @@
+📝 NEW BLOG POST - Well Scripted Life
+
+{{ post.title }}
+
+📅 Published: {{ post.published_date|date:"F j, Y" }}
+{% if post.categories.all %}📚 Categories: {% for category in post.categories.all %}{{ category.name }}{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}
+
+{% if post.excerpt %}{{ post.excerpt|truncatewords:50 }}{% else %}{{ post.content|striptags|truncatewords:50 }}{% endif %}
+
+READ FULL POST:
+https://{{ domain }}{{ post.get_absolute_url }}
+
+---
+
+You're receiving this because you subscribed to {% if subscriber.tech and subscriber.life and subscriber.spirit %}all categories{% else %}{% for category in post.categories.all %}{% if category.name == "Tech" and subscriber.tech %}Tech{% endif %}{% if category.name == "Life" and subscriber.life %}Life Management{% endif %}{% if category.name == "Spirit" and subscriber.spirit %}Spiritual Growth{% endif %}{% endfor %}{% endif %} updates from Well Scripted Life.
+
+MANAGE SUBSCRIPTION:
+https://{{ domain }}/blog/unsubscribe/?email={{ subscriber.email }}
+
+Thanks for being a subscriber!
+Keep learning, growing, and living intentionally.
+
+Greg Dyche
+Well Scripted Life
+{{ domain }}

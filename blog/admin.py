@@ -1,6 +1,8 @@
 # blog/admin.py
 from django.contrib import admin
+from django.test import RequestFactory
 from .models import Post, Page, PageCategory, Category, Tag, Comment, Subscriber
+from .utils import send_post_notifications
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
@@ -9,6 +11,47 @@ class PostAdmin(admin.ModelAdmin):
     search_fields = ['title', 'content']
     prepopulated_fields = {'slug': ('title',)}
     filter_horizontal = ['categories', 'tags']
+    actions = ['send_post_notifications_action']
+    
+    def send_post_notifications_action(self, request, queryset):
+        """Admin action to manually send post notifications"""
+        total_sent = 0
+        total_failed = 0
+        
+        for post in queryset:
+            if post.status != 'published':
+                self.message_user(request, f'Skipped "{post.title}" - not published', level='warning')
+                continue
+                
+            # Create a mock request for the email function
+            factory = RequestFactory()
+            mock_request = factory.get('/')
+            
+            # Send notifications
+            results = send_post_notifications(mock_request, post)
+            total_sent += results['success_count']
+            total_failed += results['failure_count']
+            
+            if results['success_count'] > 0:
+                self.message_user(
+                    request, 
+                    f'Sent {results["success_count"]} notifications for "{post.title}"'
+                )
+            
+            if results['failure_count'] > 0:
+                self.message_user(
+                    request, 
+                    f'Failed to send {results["failure_count"]} notifications for "{post.title}"',
+                    level='error'
+                )
+        
+        if total_sent > 0 or total_failed > 0:
+            self.message_user(
+                request, 
+                f'Notification summary: {total_sent} sent, {total_failed} failed'
+            )
+    
+    send_post_notifications_action.short_description = "Send email notifications to subscribers"
 
 @admin.register(PageCategory)
 class PageCategoryAdmin(admin.ModelAdmin):
