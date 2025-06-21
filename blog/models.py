@@ -155,3 +155,45 @@ class Comment(models.Model):
     
     class Meta:
         ordering = ['created_date']
+
+class Subscriber(models.Model):
+    """Email subscribers for blog notifications"""
+    email = models.EmailField(unique=True, help_text="Subscriber's email address")
+    
+    # Subscription preferences for different blog categories
+    tech = models.BooleanField(default=False, help_text="Subscribe to Technology blog posts")
+    life = models.BooleanField(default=False, help_text="Subscribe to Life Management blog posts")
+    spirit = models.BooleanField(default=False, help_text="Subscribe to Spiritual Growth blog posts")
+    
+    # Subscription metadata
+    subscribed_at = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True, help_text="Whether subscription is active")
+    confirmation_token = models.CharField(max_length=100, blank=True, help_text="Token for email confirmation")
+    confirmed_at = models.DateTimeField(null=True, blank=True, help_text="When email was confirmed")
+    
+    def __str__(self):
+        categories = []
+        if self.tech:
+            categories.append('Tech')
+        if self.life:
+            categories.append('Life')
+        if self.spirit:
+            categories.append('Spirit')
+        return f'{self.email} ({", ".join(categories) if categories else "No categories"})'
+    
+    @property
+    def subscribed_categories(self):
+        """Return list of subscribed category names"""
+        categories = []
+        if self.tech:
+            categories.append('tech')
+        if self.life:
+            categories.append('life')
+        if self.spirit:
+            categories.append('spirit')
+        return categories
+    
+    class Meta:
+        ordering = ['-subscribed_at']
+        verbose_name = "Subscriber"
+        verbose_name_plural = "Subscribers"

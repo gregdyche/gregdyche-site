@@ -1,0 +1,87 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Subscription Confirmed - Greg Dyche{% endblock %}
+
+{% block description %}Thank you for subscribing to blog updates!{% endblock %}
+
+{% block content %}
+<div class="container mt-8">
+    <div class="card" style="max-width: 600px; margin: 0 auto; text-align: center;">
+        <div class="card-content">
+            <div style="font-size: 4rem; color: var(--accent-color); margin-bottom: 2rem;">
+                ✓
+            </div>
+            
+            <h1 style="color: var(--text-primary); margin-bottom: 1rem;">
+                Subscription Confirmed!
+            </h1>
+            
+            <p style="font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 2rem;">
+                Thank you for subscribing to Well Scripted Life blog updates.
+            </p>
+            
+            <div style="background-color: var(--background-secondary); padding: 2rem; border-radius: 8px; margin-bottom: 2rem;">
+                <h3 style="color: var(--text-primary); margin-bottom: 1rem;">What happens next?</h3>
+                <ul style="text-align: left; color: var(--text-secondary); line-height: 1.6;">
+                    <li>You'll receive email notifications when new posts are published in your selected categories</li>
+                    <li>No spam - only quality content notifications</li>
+                    <li>You can update your preferences or unsubscribe anytime</li>
+                </ul>
+            </div>
+            
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="/" class="btn btn-primary">
+                    Back to Homepage
+                </a>
+                
+                <a href="/blog/tech/" class="btn btn-secondary">
+                    Browse Tech Posts
+                </a>
+                
+                <a href="/blog/life/" class="btn btn-secondary">
+                    Browse Life Posts
+                </a>
+                
+                <a href="/blog/spirit/" class="btn btn-secondary">
+                    Browse Spirit Posts
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background-color: var(--background-secondary);
+    color: var(--text-primary);
+    border: 2px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    border-color: var(--accent-color);
+    transform: translateY(-1px);
+}
+</style>
+{% endblock %}

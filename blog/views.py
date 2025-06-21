@@ -1,8 +1,11 @@
 # blog/views.py
 
 from django.views.generic import DetailView, ListView
-from django.shortcuts import render
-from .models import Post, Page, Category
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.http import JsonResponse
+from .models import Post, Page, Category, Subscriber
+from .forms import SubscriptionForm
 
 class PostDetailView(DetailView):
     model = Post
@@ -59,3 +62,67 @@ class BlogSectionView(ListView):
         context['section'] = section
         context['section_info'] = section_info.get(section, {})
         return context
+
+def subscribe_view(request):
+    """Handle blog subscription form submission"""
+    if request.method == 'POST':
+        form = SubscriptionForm(request.POST)
+        if form.is_valid():
+            try:
+                subscriber = form.save()
+                messages.success(
+                    request, 
+                    f'Thank you for subscribing! You\'ll receive notifications for {", ".join([cat.title() for cat in subscriber.subscribed_categories])} blog posts.'
+                )
+                # If it's an AJAX request, return JSON response
+                if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                    return JsonResponse({
+                        'success': True, 
+                        'message': 'Successfully subscribed!'
+                    })
+                return redirect('blog:subscribe_success')
+            except Exception as e:
+                messages.error(request, 'An error occurred. Please try again.')
+                if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                    return JsonResponse({
+                        'success': False, 
+                        'message': 'An error occurred. Please try again.'
+                    })
+        else:
+            # Handle form errors
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': False, 
+                    'errors': form.errors,
+                    'message': 'Please correct the errors below.'
+                })
+    else:
+        form = SubscriptionForm()
+    
+    return render(request, 'blog/subscribe.html', {'form': form})
+
+def subscribe_success_view(request):
+    """Thank you page after successful subscription"""
+    return render(request, 'blog/subscribe_success.html')
+
+def unsubscribe_view(request, email=None):
+    """Handle unsubscribe requests"""
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        if email:
+            try:
+                subscriber = Subscriber.objects.get(email=email, is_active=True)
+                subscriber.is_active = False
+                subscriber.save()
+                messages.success(request, 'You have been successfully unsubscribed.')
+                return redirect('blog:unsubscribe_success')
+            except Subscriber.DoesNotExist:
+                messages.error(request, 'Email address not found in our subscription list.')
+        else:
+            messages.error(request, 'Please provide a valid email address.')
+    
+    return render(request, 'blog/unsubscribe.html')
+
+def unsubscribe_success_view(request):
+    """Confirmation page after successful unsubscription"""
+    return render(request, 'blog/unsubscribe_success.html')
