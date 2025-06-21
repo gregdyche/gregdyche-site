@@ -12,6 +12,19 @@
         <p class="hero-subtitle">{{ section_info.description }}</p>
     </section>
     
+    <!-- Subscribe CTA -->
+    <div class="subscribe-cta">
+        <div class="subscribe-cta-content">
+            <div class="subscribe-cta-text">
+                <h3>📬 Never miss a {{ section_info.title|lower }} update</h3>
+                <p>Get notified when I publish new content in {{ section_info.subtitle|lower }}</p>
+            </div>
+            <a href="/blog/subscribe/" class="subscribe-cta-button">
+                Subscribe Now
+            </a>
+        </div>
+    </div>
+    
     <!-- Posts Grid -->
     {% if posts %}
     <div class="mt-12">

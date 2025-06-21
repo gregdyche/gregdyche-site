@@ -13,6 +13,19 @@
                 <p class="card-subtitle">Published {{ post.published_date|date:"F j, Y" }}</p>
             </header>
             
+            <!-- Subscribe Button -->
+            <div class="subscribe-cta">
+                <div class="subscribe-cta-content">
+                    <div class="subscribe-cta-text">
+                        <h3>📬 Get updates when I publish new content</h3>
+                        <p>Choose the topics you're interested in: Tech, Life Management, or Spiritual Growth</p>
+                    </div>
+                    <a href="/blog/subscribe/" class="subscribe-cta-button">
+                        Subscribe Now
+                    </a>
+                </div>
+            </div>
+            
             <div class="card-content">
                 {{ post.content|safe }}
             </div>
