@@ -1,0 +1,21 @@
+🎉 NEW BLOG SUBSCRIPTION - Well Scripted Life
+
+Hi Greg,
+
+Great news! You have a new subscriber to your blog.
+
+SUBSCRIBER DETAILS:
+📧 Email: {{ subscriber.email }}
+📅 Subscribed: {{ subscriber.subscribed_at|date:"F j, Y \a\\t g:i A" }}
+📚 Categories: {% if subscriber.tech %}Tech{% endif %}{% if subscriber.life %}{% if subscriber.tech %}, {% endif %}Life{% endif %}{% if subscriber.spirit %}{% if subscriber.tech or subscriber.life %}, {% endif %}Spirit{% endif %}
+
+🎯 Total Categories: {{ subscriber.subscribed_categories|length }} of 3
+
+This subscriber is interested in {% if subscriber.tech and subscriber.life and subscriber.spirit %}all three of your blog categories{% elif subscriber.subscribed_categories|length == 2 %}{{ subscriber.subscribed_categories|join:" and " }}{% else %}{{ subscriber.subscribed_categories.0 }}{% endif %}.
+
+ADMIN PANEL:
+Visit your Django admin to manage subscribers: https://{{ domain }}{% url 'admin:blog_subscriber_changelist' %}
+
+---
+This notification was sent because someone subscribed to your blog at {{ domain }}
+To manage your subscribers, visit your Django admin panel.

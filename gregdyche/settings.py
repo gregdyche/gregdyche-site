@@ -75,8 +75,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'blog',
 ]
+
+# Required for django.contrib.sites
+SITE_ID = 1
 
 MIDDLEWARE = [
     # SecurityMiddleware should be near the top.
@@ -181,4 +185,26 @@ if not DEBUG:
     # SECURE_HSTS_SECONDS = 31536000 # 1 year
     # SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     # SECURE_HSTS_PRELOAD = True
+
+# --- Email Configuration ---
+
+# Use console backend for development and testing (emails will be printed to console)
+# In production, configure EMAIL_HOST_USER and EMAIL_HOST_PASSWORD via environment variables
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+if DEBUG or not EMAIL_HOST_USER:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    # Production email settings (configured via environment variables)
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = config('EMAIL_HOST', default='smtp.gmail.com')
+    EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
+    EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+    EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
+
+# Default email addresses
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@gregdyche.com')
+ADMIN_EMAIL = config('ADMIN_EMAIL', default='gregdyche@creighton.edu')
+
+# Email for notifications about new subscriptions
+SUBSCRIPTION_NOTIFICATION_EMAIL = ADMIN_EMAIL
 

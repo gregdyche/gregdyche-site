@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.http import JsonResponse
 from .models import Post, Page, Category, Subscriber
 from .forms import SubscriptionForm
+from .utils import send_subscription_notification, send_welcome_email
 
 class PostDetailView(DetailView):
     model = Post
@@ -70,6 +71,19 @@ def subscribe_view(request):
         if form.is_valid():
             try:
                 subscriber = form.save()
+                
+                # Send notification email to admin
+                notification_sent = send_subscription_notification(request, subscriber)
+                
+                # Send welcome email to subscriber (optional)
+                welcome_sent = send_welcome_email(request, subscriber)
+                
+                # Log email status (for debugging)
+                if not notification_sent:
+                    print(f"Warning: Failed to send notification email for {subscriber.email}")
+                if not welcome_sent:
+                    print(f"Warning: Failed to send welcome email to {subscriber.email}")
+                
                 messages.success(
                     request, 
                     f'Thank you for subscribing! You\'ll receive notifications for {", ".join([cat.title() for cat in subscriber.subscribed_categories])} blog posts.'
