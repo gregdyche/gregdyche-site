@@ -16,9 +16,8 @@ from blog.models import Page
 
 # This function must be defined to be used below
 def home(request):
-    # Serve the "Slow and Faithful" page content directly at the homepage
-    page = get_object_or_404(Page, slug='well-scripted-life-by-greg-dyche', is_published=True)
-    return render(request, 'blog/page_detail.html', {'page': page})
+    # Serve a custom homepage with Slow and Faithful content
+    return render(request, 'blog/homepage.html')
 
 # This function must also be defined to be used below
 def debug_view(request):
