@@ -45,11 +45,19 @@
             {% for item in toc_data %}
                 <div class="toc-section">
                     {% if item.category %}
-                        <h4 class="toc-category">{{ item.category.name }}</h4>
+                        <h4 class="toc-category toc-category-collapsible" data-category="{{ item.category.slug }}">
+                            <span class="toc-category-icon">▼</span>
+                            {{ item.category.name }}
+                            <span class="toc-category-count">({{ item.pages|length }})</span>
+                        </h4>
                     {% else %}
-                        <h4 class="toc-category">Other Pages</h4>
+                        <h4 class="toc-category toc-category-collapsible" data-category="other">
+                            <span class="toc-category-icon">▼</span>
+                            Other Pages
+                            <span class="toc-category-count">({{ item.pages|length }})</span>
+                        </h4>
                     {% endif %}
-                    <ul class="toc-list">
+                    <ul class="toc-list toc-list-collapsible" data-category="{{ item.category.slug|default:'other' }}">
                         {% for page in item.pages %}
                             <li class="toc-item">
                                 <a href="{{ page.get_absolute_url }}" class="toc-link">{{ page.title }}</a>
@@ -133,6 +141,42 @@
                 if (e.key === 'Escape' && tocSidebar.classList.contains('toc-sidebar-open')) {
                     closeTOC();
                 }
+            });
+
+            // Collapsible TOC categories
+            const categoryHeaders = document.querySelectorAll('.toc-category-collapsible');
+            
+            // Load saved collapse states from localStorage
+            categoryHeaders.forEach(function(header) {
+                const category = header.getAttribute('data-category');
+                const isCollapsed = localStorage.getItem('toc-collapsed-' + category) === 'true';
+                const list = document.querySelector('.toc-list-collapsible[data-category="' + category + '"]');
+                const icon = header.querySelector('.toc-category-icon');
+                
+                if (isCollapsed) {
+                    list.style.display = 'none';
+                    icon.textContent = '▶';
+                    header.classList.add('collapsed');
+                }
+                
+                // Add click handler
+                header.addEventListener('click', function() {
+                    const isCurrentlyCollapsed = list.style.display === 'none';
+                    
+                    if (isCurrentlyCollapsed) {
+                        // Expand
+                        list.style.display = 'block';
+                        icon.textContent = '▼';
+                        header.classList.remove('collapsed');
+                        localStorage.setItem('toc-collapsed-' + category, 'false');
+                    } else {
+                        // Collapse
+                        list.style.display = 'none';
+                        icon.textContent = '▶';
+                        header.classList.add('collapsed');
+                        localStorage.setItem('toc-collapsed-' + category, 'true');
+                    }
+                });
             });
         });
     </script>
