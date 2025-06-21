@@ -11,11 +11,14 @@ from django.contrib import admin
 from django.urls import path, include
 from django.http import HttpResponse
 from django.conf import settings
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render, get_object_or_404
+from blog.models import Page
 
 # This function must be defined to be used below
 def home(request):
-    return redirect('blog:page_detail', slug='well-scripted-life-by-greg-dyche')
+    # Serve the "Slow and Faithful" page content directly at the homepage
+    page = get_object_or_404(Page, slug='well-scripted-life-by-greg-dyche', is_published=True)
+    return render(request, 'blog/page_detail.html', {'page': page})
 
 # This function must also be defined to be used below
 def debug_view(request):
