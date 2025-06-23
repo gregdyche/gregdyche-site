@@ -4,17 +4,17 @@
   /* Color Palette - Railway inspired */
   --primary-bg: #0a0a0a;
   --secondary-bg: #111111;
-  --card-bg: #1a1a1a;
-  --card-hover-bg: #222222;
+  --card-bg: #1f1f23;
+  --card-hover-bg: #2a2a2e;
   --accent-purple: #8b5cf6;
   --accent-blue: #3b82f6;
   --accent-green: #10b981;
   --accent-orange: #f59e0b;
   --text-primary: #ffffff;
-  --text-secondary: #a1a1aa;
-  --text-muted: #71717a;
-  --border-color: #27272a;
-  --border-hover: #3f3f46;
+  --text-secondary: #d1d1d6;
+  --text-muted: #a8a8b3;
+  --border-color: #3a3a3f;
+  --border-hover: #4a4a52;
   
   /* Gradients */
   --gradient-primary: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-blue) 100%);
@@ -703,4 +703,126 @@ body {
   .subscribe-cta-button {
     padding: var(--space-3) var(--space-8);
   }
+}
+
+/* Contrast Enhancements */
+/* Improve text contrast and readability in dark mode */
+
+/* Make links more visible */
+a {
+  color: #8eb7ff;
+}
+
+a:hover {
+  color: #b3ceff;
+}
+
+/* Improve blockquote contrast */
+blockquote {
+  border-left: 4px solid var(--accent-blue);
+  background: rgba(255, 255, 255, 0.03);
+  padding: var(--space-4);
+  margin: var(--space-4) 0;
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+}
+
+/* Better code block contrast */
+code {
+  background: rgba(255, 255, 255, 0.08);
+  color: #e2e8f0;
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+}
+
+pre code {
+  background: transparent;
+  padding: 0;
+}
+
+pre {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  overflow-x: auto;
+}
+
+/* Enhanced table contrast */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: var(--space-4) 0;
+}
+
+th, td {
+  border: 1px solid var(--border-color);
+  padding: var(--space-2) var(--space-3);
+  text-align: left;
+}
+
+th {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+td {
+  color: var(--text-secondary);
+}
+
+/* Better form input contrast */
+input, textarea, select {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid var(--border-color);
+  color: var(--text-primary);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--accent-blue);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Improve list item spacing and contrast */
+ul li, ol li {
+  margin-bottom: var(--space-1);
+  color: var(--text-secondary);
+}
+
+/* Better heading contrast */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Enhanced button contrast */
+.btn {
+  border: 2px solid transparent;
+  font-weight: 500;
+}
+
+.btn-primary {
+  background: var(--accent-blue);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: transparent;
+  border-color: var(--border-hover);
+  color: var(--text-secondary);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--text-secondary);
+  color: var(--text-primary);
 }
