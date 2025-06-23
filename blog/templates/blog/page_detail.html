@@ -1,8 +1,26 @@
 {% extends "blog/base.html" %}
+{% load static %}
 
 {% block title %}{{ page.title }} - Greg Dyche{% endblock %}
 
 {% block description %}{{ page.content|striptags|truncatewords:25 }}{% endblock %}
+
+{% block extra_css %}
+{% if user.is_staff %}
+<link rel="stylesheet" href="{% static 'blog/css/frontend-editor.css' %}">
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+{% if user.is_staff %}
+<script>
+    window.isStaffUser = true;
+    document.body.dataset.contentId = '{{ page.id }}';
+    document.body.dataset.contentType = 'page';
+</script>
+<script src="{% static 'blog/js/frontend-editor.js' %}"></script>
+{% endif %}
+{% endblock %}
 
 {% block content %}
 <div class="container mt-8">
@@ -19,7 +37,7 @@
         <article class="card">
             {% if page.slug != "well-scripted-life-by-greg-dyche" %}
             <header class="card-header">
-                <h1 class="card-title">{{ page.title }}</h1>
+                <h1 class="card-title" data-editable="title">{{ page.title }}</h1>
                 {% if page.published_date %}
                 <p class="card-subtitle">Published {{ page.published_date|date:"F j, Y" }}</p>
                 {% endif %}
@@ -39,7 +57,7 @@
                 </div>
             </div>
             
-            <div class="card-content">
+            <div class="card-content" data-editable="content">
                 {{ page.content|safe }}
             </div>
         </article>

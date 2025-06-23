@@ -1,15 +1,33 @@
 {% extends "blog/base.html" %}
+{% load static %}
 
 {% block title %}{{ post.title }} - Greg Dyche{% endblock %}
 
 {% block description %}{{ post.content|striptags|truncatewords:25 }}{% endblock %}
+
+{% block extra_css %}
+{% if user.is_staff %}
+<link rel="stylesheet" href="{% static 'blog/css/frontend-editor.css' %}">
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+{% if user.is_staff %}
+<script>
+    window.isStaffUser = true;
+    document.body.dataset.contentId = '{{ post.id }}';
+    document.body.dataset.contentType = 'post';
+</script>
+<script src="{% static 'blog/js/frontend-editor.js' %}"></script>
+{% endif %}
+{% endblock %}
 
 {% block content %}
 <div class="container mt-8">
     <div class="grid grid-cols-1">
         <article class="card">
             <header class="card-header">
-                <h1 class="card-title">{{ post.title }}</h1>
+                <h1 class="card-title" data-editable="title">{{ post.title }}</h1>
                 <p class="card-subtitle">Published {{ post.published_date|date:"F j, Y" }}</p>
             </header>
             
@@ -26,7 +44,7 @@
                 </div>
             </div>
             
-            <div class="card-content">
+            <div class="card-content" data-editable="content">
                 {{ post.content|safe }}
             </div>
         </article>

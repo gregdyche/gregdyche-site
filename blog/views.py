@@ -1,9 +1,13 @@
 # blog/views.py
 
 from django.views.generic import DetailView, ListView
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.http import JsonResponse
+from django.contrib.auth.decorators import user_passes_test
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+import json
 from .models import Post, Page, Category, Subscriber
 from .forms import SubscriptionForm
 from .utils import send_subscription_notification, send_welcome_email
@@ -140,3 +144,62 @@ def unsubscribe_view(request, email=None):
 def unsubscribe_success_view(request):
     """Confirmation page after successful unsubscription"""
     return render(request, 'blog/unsubscribe_success.html')
+
+# Frontend Editing Views
+def is_staff_user(user):
+    """Check if user is staff member"""
+    return user.is_authenticated and user.is_staff
+
+@user_passes_test(is_staff_user)
+@require_POST
+@csrf_exempt
+def edit_post_content(request, post_id):
+    """AJAX endpoint to update post content"""
+    try:
+        post = get_object_or_404(Post, id=post_id)
+        data = json.loads(request.body)
+        
+        if 'title' in data:
+            post.title = data['title']
+        if 'content' in data:
+            post.content = data['content']
+        if 'excerpt' in data:
+            post.excerpt = data['excerpt']
+            
+        post.save()
+        
+        return JsonResponse({
+            'success': True,
+            'message': 'Post updated successfully'
+        })
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'message': str(e)
+        }, status=400)
+
+@user_passes_test(is_staff_user)
+@require_POST  
+@csrf_exempt
+def edit_page_content(request, page_id):
+    """AJAX endpoint to update page content"""
+    try:
+        page = get_object_or_404(Page, id=page_id)
+        data = json.loads(request.body)
+        
+        if 'title' in data:
+            page.title = data['title']
+        if 'content' in data:
+            page.content = data['content']
+            
+        page.save()
+        
+        return JsonResponse({
+            'success': True,
+            'message': 'Page updated successfully'
+        })
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'message': str(e)
+        }, status=400)

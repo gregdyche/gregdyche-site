@@ -1,0 +1,371 @@
+/**
+ * Frontend Editor Styles
+ * Provides clean, modern styling for the inline editing interface
+ */
+
+/* Floating Toolbar */
+.frontend-editor-toolbar {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    min-width: 280px;
+}
+
+.toolbar-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.toolbar-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: #007cba;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    justify-content: center;
+}
+
+.toolbar-button:hover {
+    background: #005a87;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 124, 186, 0.3);
+}
+
+.toolbar-button:active {
+    transform: translateY(0);
+}
+
+.toolbar-button .icon {
+    font-size: 16px;
+}
+
+.toolbar-button .text {
+    font-size: 14px;
+}
+
+/* Different button types */
+.toolbar-button#save-changes {
+    background: #28a745;
+}
+
+.toolbar-button#save-changes:hover {
+    background: #218838;
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.toolbar-button#cancel-edit {
+    background: #dc3545;
+}
+
+.toolbar-button#cancel-edit:hover {
+    background: #c82333;
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+.toolbar-status {
+    font-size: 12px;
+    color: #666;
+    font-style: italic;
+    text-align: center;
+    min-height: 16px;
+    line-height: 1.4;
+}
+
+/* Editable Content Indicators */
+[data-editable] {
+    transition: all 0.2s ease;
+    border-radius: 4px;
+}
+
+[data-editable].editable-hover {
+    outline: 2px dashed transparent;
+    cursor: pointer;
+}
+
+[data-editable].editable-hover:hover {
+    outline-color: #007cba;
+    background-color: rgba(0, 124, 186, 0.05);
+}
+
+[data-editable].editing-active {
+    outline: 2px solid #007cba;
+    background-color: rgba(0, 124, 186, 0.1);
+    box-shadow: 0 0 0 4px rgba(0, 124, 186, 0.1);
+    min-height: 40px;
+    padding: 8px;
+}
+
+[data-editable].editing-active:focus {
+    outline: 2px solid #28a745;
+    box-shadow: 0 0 0 4px rgba(40, 167, 69, 0.1);
+}
+
+/* Toast Notifications */
+.editor-toast {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    z-index: 10001;
+    padding: 12px 20px;
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: slideInToast 0.3s ease-out;
+}
+
+.toast-success {
+    background: #28a745;
+}
+
+.toast-error {
+    background: #dc3545;
+}
+
+.toast-warning {
+    background: #ffc107;
+    color: #333;
+}
+
+.toast-info {
+    background: #17a2b8;
+}
+
+@keyframes slideInToast {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .frontend-editor-toolbar {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        min-width: unset;
+        padding: 12px;
+    }
+    
+    .toolbar-content {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .toolbar-button {
+        flex: 1;
+        min-width: 100px;
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+    
+    .toolbar-button .text {
+        display: none;
+    }
+    
+    .toolbar-status {
+        flex-basis: 100%;
+        order: -1;
+        margin-bottom: 8px;
+        font-size: 11px;
+    }
+    
+    .editor-toast {
+        top: 80px;
+        right: 10px;
+        left: 10px;
+        text-align: center;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .frontend-editor-toolbar {
+        background: rgba(40, 40, 40, 0.95);
+        border-color: #555;
+        color: #fff;
+    }
+    
+    .toolbar-status {
+        color: #ccc;
+    }
+    
+    [data-editable].editable-hover:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+    
+    [data-editable].editing-active {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+}
+
+/* Content-specific styling */
+[data-editable="title"] {
+    display: block;
+}
+
+[data-editable="content"] {
+    min-height: 100px;
+    line-height: 1.6;
+}
+
+/* Ensure edited content maintains proper formatting */
+[data-editable="content"] p {
+    margin-bottom: 1em;
+}
+
+[data-editable="content"] h1,
+[data-editable="content"] h2,
+[data-editable="content"] h3,
+[data-editable="content"] h4,
+[data-editable="content"] h5,
+[data-editable="content"] h6 {
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+[data-editable="content"] ul,
+[data-editable="content"] ol {
+    margin-bottom: 1em;
+    padding-left: 2em;
+}
+
+[data-editable="content"] blockquote {
+    margin: 1em 0;
+    padding-left: 1em;
+    border-left: 3px solid #ccc;
+    font-style: italic;
+}
+
+/* Loading state */
+.toolbar-button.loading {
+    opacity: 0.7;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.toolbar-button.loading::after {
+    content: "...";
+    animation: dots 1.5s infinite;
+}
+
+@keyframes dots {
+    0%, 20% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* Rich Text Toolbar */
+.rich-text-toolbar {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.rich-text-toolbar button {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 6px 8px;
+    cursor: pointer;
+    color: #333;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    min-width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rich-text-toolbar button:hover {
+    background: #f0f0f0;
+    border-color: #ccc;
+}
+
+.rich-text-toolbar button:active {
+    background: #e0e0e0;
+    transform: translateY(1px);
+}
+
+.toolbar-separator {
+    width: 1px;
+    height: 20px;
+    background: #ddd;
+    margin: 0 4px;
+}
+
+/* Rich text toolbar responsive */
+@media (max-width: 768px) {
+    .rich-text-toolbar {
+        flex-wrap: wrap;
+        max-width: 280px;
+        padding: 6px;
+    }
+    
+    .rich-text-toolbar button {
+        font-size: 11px;
+        padding: 4px 6px;
+        min-width: 24px;
+        height: 24px;
+    }
+}
+
+/* Dark mode for rich text toolbar */
+@media (prefers-color-scheme: dark) {
+    .rich-text-toolbar {
+        background: rgba(40, 40, 40, 0.98);
+        border-color: #555;
+    }
+    
+    .rich-text-toolbar button {
+        color: #fff;
+    }
+    
+    .rich-text-toolbar button:hover {
+        background: #555;
+        border-color: #777;
+    }
+    
+    .rich-text-toolbar button:active {
+        background: #666;
+    }
+    
+    .toolbar-separator {
+        background: #666;
+    }
+}

@@ -14,6 +14,7 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'blog/css/modern.css' %}">
     
+    {% block extra_css %}{% endblock %}
     {% block extra_head %}{% endblock %}
 </head>
 <body>
@@ -181,6 +182,7 @@
         });
     </script>
     
+    {% block extra_js %}{% endblock %}
     {% block extra_scripts %}{% endblock %}
 </body>
 </html>
