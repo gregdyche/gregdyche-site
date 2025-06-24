@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 import json
 from .models import Post, Page, Category, Subscriber
-from .forms import SubscriptionForm
+from .forms import SubscriptionForm, CoachingInquiryForm
 from .utils import send_subscription_notification, send_welcome_email
 
 class PostDetailView(DetailView):
@@ -203,3 +203,56 @@ def edit_page_content(request, page_id):
             'success': False,
             'message': str(e)
         }, status=400)
+
+
+def coaching_inquiry(request):
+    """Handle coaching inquiry form submissions"""
+    if request.method == 'POST':
+        form = CoachingInquiryForm(request.POST)
+        if form.is_valid():
+            # Get form data
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            interest = form.cleaned_data['interest']
+            message = form.cleaned_data['message']
+            
+            # Send email notification
+            from django.core.mail import send_mail
+            from django.conf import settings
+            
+            subject = f'Coaching Inquiry from {name}'
+            email_message = f"""
+New coaching inquiry received:
+
+Name: {name}
+Email: {email}
+Interest: {dict(form.INTEREST_CHOICES)[interest]}
+
+Message:
+{message}
+
+---
+Sent from Well Scripted Life coaching form
+"""
+            
+            try:
+                send_mail(
+                    subject,
+                    email_message,
+                    settings.DEFAULT_FROM_EMAIL,
+                    ['gregdyche@gmail.com'],
+                    fail_silently=False,
+                )
+                
+                messages.success(request, 'Thank you! Your message has been sent. I\'ll get back to you within 24 hours.')
+                
+            except Exception as e:
+                messages.error(request, 'There was an error sending your message. Please try emailing me directly at gregdyche@gmail.com')
+            
+            # Redirect back to coaching page
+            return redirect('/blog/page/coaching/')
+    else:
+        form = CoachingInquiryForm()
+    
+    # If GET request or form errors, redirect back to coaching page
+    return redirect('/blog/page/coaching/')

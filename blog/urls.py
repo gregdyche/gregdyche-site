@@ -4,7 +4,7 @@ from django.urls import path
 from .views import (
     PostDetailView, PageDetailView, BlogSectionView,
     subscribe_view, subscribe_success_view, unsubscribe_view, unsubscribe_success_view,
-    edit_post_content, edit_page_content
+    edit_post_content, edit_page_content, coaching_inquiry
 )
 
 app_name = 'blog'
@@ -16,6 +16,7 @@ urlpatterns = [
     path('subscribe/success/', subscribe_success_view, name='subscribe_success'),
     path('unsubscribe/', unsubscribe_view, name='unsubscribe'),
     path('unsubscribe/success/', unsubscribe_success_view, name='unsubscribe_success'),
+    path('coaching-inquiry/', coaching_inquiry, name='coaching_inquiry'),
     # Frontend editing endpoints
     path('edit/post/<int:post_id>/', edit_post_content, name='edit_post_content'),
     path('edit/page/<int:page_id>/', edit_page_content, name='edit_page_content'),

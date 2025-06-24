@@ -54,3 +54,48 @@ class SubscriptionForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         # Make email field required
         self.fields['email'].required = True
+
+
+class CoachingInquiryForm(forms.Form):
+    """Form for coaching inquiry submissions"""
+    
+    INTEREST_CHOICES = [
+        ('private', 'Private Session'),
+        ('business', 'Business Lunch & Learn'),
+        ('custom', 'Something Custom'),
+        ('exploring', 'Just Exploring'),
+    ]
+    
+    name = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={
+            'class': 'form-input',
+            'placeholder': 'Your name',
+            'required': True
+        })
+    )
+    
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={
+            'class': 'form-input',
+            'placeholder': 'your.email@example.com',
+            'required': True
+        })
+    )
+    
+    interest = forms.ChoiceField(
+        choices=INTEREST_CHOICES,
+        widget=forms.Select(attrs={
+            'class': 'form-select',
+            'required': True
+        })
+    )
+    
+    message = forms.CharField(
+        widget=forms.Textarea(attrs={
+            'class': 'form-textarea',
+            'rows': 4,
+            'placeholder': 'Tell me about your challenge or goal...',
+            'required': True
+        })
+    )

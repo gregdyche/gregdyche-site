@@ -78,6 +78,17 @@
             {% endif %}
             
             <div class="card-content" data-editable="content">
+                <!-- Display Django messages if any -->
+                {% if messages %}
+                <div style="margin-bottom: 2rem;">
+                    {% for message in messages %}
+                    <div style="padding: 1rem; border-radius: 6px; margin-bottom: 1rem; {% if message.tags == 'success' %}background: rgba(76, 175, 80, 0.1); border: 1px solid rgba(76, 175, 80, 0.3); color: #4CAF50;{% elif message.tags == 'error' %}background: rgba(244, 67, 54, 0.1); border: 1px solid rgba(244, 67, 54, 0.3); color: #F44336;{% endif %}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
                 {{ page.content|safe }}
             </div>
         </article>
