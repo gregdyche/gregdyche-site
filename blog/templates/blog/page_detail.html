@@ -43,8 +43,8 @@
             </header>
             {% endif %}
             
-            <!-- Subscribe Button (not shown on homepage or coaching page) -->
-            {% if not is_homepage and page.slug != "coaching" %}
+            <!-- Subscribe Button (not shown on homepage, coaching, or contact page) -->
+            {% if not is_homepage and page.slug != "coaching" and page.slug != "contact" %}
             <div class="subscribe-cta">
                 <div class="subscribe-cta-content">
                     <div class="subscribe-cta-text">
