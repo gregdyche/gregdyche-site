@@ -44,8 +44,8 @@
             </header>
             {% endif %}
             
-            <!-- Subscribe Button (not shown on homepage or services page) -->
-            {% if not is_homepage and page.slug != "services" %}
+            <!-- Subscribe Button (not shown on homepage or coaching page) -->
+            {% if not is_homepage and page.slug != "coaching" %}
             <div class="subscribe-cta">
                 <div class="subscribe-cta-content">
                     <div class="subscribe-cta-text">
@@ -59,8 +59,8 @@
             </div>
             {% endif %}
             
-            <!-- Email Me Button for Services Page -->
-            {% if page.slug == "services" %}
+            <!-- Email Me Button for Coaching Page -->
+            {% if page.slug == "coaching" %}
             <div class="subscribe-cta">
                 <div class="subscribe-cta-content">
                     <div class="subscribe-cta-text">
