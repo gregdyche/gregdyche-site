@@ -17,7 +17,7 @@
     {% block extra_css %}{% endblock %}
     {% block extra_head %}{% endblock %}
 </head>
-<body>
+<body{% if section %} data-section="{{ section }}"{% endif %}>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container">

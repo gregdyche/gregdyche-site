@@ -1,20 +1,36 @@
 /* Modern Railway-inspired CSS Framework */
 
 :root {
-  /* Color Palette - Railway inspired */
-  --primary-bg: #0a0a0a;
-  --secondary-bg: #111111;
-  --card-bg: #1f1f23;
-  --card-hover-bg: #2a2a2e;
-  --accent-purple: #8b5cf6;
-  --accent-blue: #3b82f6;
-  --accent-green: #10b981;
-  --accent-orange: #f59e0b;
+  /* Color Palette - Creighton University inspired */
+  --primary-bg: #0054A6;          /* Creighton Primary Blue */
+  --secondary-bg: #004494;        /* Slightly darker blue */
+  --card-bg: rgba(255, 255, 255, 0.1);  /* Semi-transparent white */
+  --card-hover-bg: rgba(255, 255, 255, 0.15);
+  
+  /* Creighton Brand Colors */
+  --creighton-primary: #0054A6;   /* Primary Blue */
+  --creighton-navy: #00245D;      /* Dark Navy */
+  --creighton-light: #1F74DB;     /* Lighter Blue */
+  --creighton-pale: #95D2F3;      /* Light Blue */
+  --creighton-gold: #FFC72C;      /* Gold accent */
+  
+  /* Blog Section Colors */
+  --tech-accent: var(--creighton-navy);    /* Dark Navy for Tech */
+  --life-accent: var(--creighton-light);   /* Lighter Blue for Life */
+  --spirit-accent: var(--creighton-gold);  /* Gold for Spirit */
+  
+  /* Legacy color names for compatibility */
+  --accent-purple: var(--creighton-navy);
+  --accent-blue: var(--creighton-light);
+  --accent-green: var(--creighton-gold);
+  --accent-orange: var(--creighton-gold);
+  
+  /* Text colors for blue background */
   --text-primary: #ffffff;
-  --text-secondary: #d1d1d6;
-  --text-muted: #a8a8b3;
-  --border-color: #3a3a3f;
-  --border-hover: #4a4a52;
+  --text-secondary: rgba(255, 255, 255, 0.9);
+  --text-muted: rgba(255, 255, 255, 0.7);
+  --border-color: rgba(255, 255, 255, 0.2);
+  --border-hover: rgba(255, 255, 255, 0.3);
   
   /* Gradients */
   --gradient-primary: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-blue) 100%);
@@ -825,4 +841,133 @@ h1, h2, h3, h4, h5, h6 {
   background: rgba(255, 255, 255, 0.05);
   border-color: var(--text-secondary);
   color: var(--text-primary);
+}
+
+/* =============================================================================
+   Blog Section Specific Styling
+   ============================================================================= */
+
+/* Tech Blog Section */
+.blog-section-tech,
+body[data-section="tech"] {
+  --section-accent: var(--tech-accent);
+}
+
+.blog-section-tech .card-title,
+.blog-section-tech .btn-primary,
+.blog-section-tech .navbar-brand,
+body[data-section="tech"] .card-title,
+body[data-section="tech"] .btn-primary,
+body[data-section="tech"] .navbar-brand {
+  color: var(--tech-accent);
+}
+
+.blog-section-tech .btn-primary,
+body[data-section="tech"] .btn-primary {
+  background: var(--tech-accent);
+  border-color: var(--tech-accent);
+  color: white;
+}
+
+.blog-section-tech .btn-primary:hover,
+body[data-section="tech"] .btn-primary:hover {
+  background: #001a4a;
+  border-color: #001a4a;
+}
+
+/* Life Blog Section */
+.blog-section-life,
+body[data-section="life"] {
+  --section-accent: var(--life-accent);
+}
+
+.blog-section-life .card-title,
+.blog-section-life .btn-primary,
+.blog-section-life .navbar-brand,
+body[data-section="life"] .card-title,
+body[data-section="life"] .btn-primary,
+body[data-section="life"] .navbar-brand {
+  color: var(--life-accent);
+}
+
+.blog-section-life .btn-primary,
+body[data-section="life"] .btn-primary {
+  background: var(--life-accent);
+  border-color: var(--life-accent);
+  color: white;
+}
+
+.blog-section-life .btn-primary:hover,
+body[data-section="life"] .btn-primary:hover {
+  background: #1560c4;
+  border-color: #1560c4;
+}
+
+/* Spirit Blog Section */
+.blog-section-spirit,
+body[data-section="spirit"] {
+  --section-accent: var(--spirit-accent);
+}
+
+.blog-section-spirit .card-title,
+.blog-section-spirit .btn-primary,
+.blog-section-spirit .navbar-brand,
+body[data-section="spirit"] .card-title,
+body[data-section="spirit"] .btn-primary,
+body[data-section="spirit"] .navbar-brand {
+  color: var(--spirit-accent);
+}
+
+.blog-section-spirit .btn-primary,
+body[data-section="spirit"] .btn-primary {
+  background: var(--spirit-accent);
+  border-color: var(--spirit-accent);
+  color: var(--creighton-navy); /* Dark text on gold background */
+}
+
+.blog-section-spirit .btn-primary:hover,
+body[data-section="spirit"] .btn-primary:hover {
+  background: #e6b025;
+  border-color: #e6b025;
+  color: var(--creighton-navy);
+}
+
+/* Section-specific accents for links and highlights */
+.blog-section-tech a:not(.btn),
+body[data-section="tech"] a:not(.btn) {
+  color: var(--tech-accent);
+}
+
+.blog-section-life a:not(.btn),
+body[data-section="life"] a:not(.btn) {
+  color: var(--life-accent);
+}
+
+.blog-section-spirit a:not(.btn),
+body[data-section="spirit"] a:not(.btn) {
+  color: var(--spirit-accent);
+}
+
+/* Subscribe button accent colors */
+.subscribe-cta-button {
+  transition: all 0.2s ease;
+}
+
+.blog-section-tech .subscribe-cta-button:hover,
+body[data-section="tech"] .subscribe-cta-button:hover {
+  background: var(--tech-accent) !important;
+  border-color: var(--tech-accent) !important;
+}
+
+.blog-section-life .subscribe-cta-button:hover,
+body[data-section="life"] .subscribe-cta-button:hover {
+  background: var(--life-accent) !important;
+  border-color: var(--life-accent) !important;
+}
+
+.blog-section-spirit .subscribe-cta-button:hover,
+body[data-section="spirit"] .subscribe-cta-button:hover {
+  background: var(--spirit-accent) !important;
+  border-color: var(--spirit-accent) !important;
+  color: var(--creighton-navy) !important;
 }
