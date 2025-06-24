@@ -54,3 +54,8 @@ urlpatterns = [
     path('debug-view/', debug_view, name='debug_view'),
     path('blog/', include('blog.urls', namespace='blog')),
 ]
+
+# Serve media files during development
+if settings.DEBUG:
+    from django.conf.urls.static import static
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

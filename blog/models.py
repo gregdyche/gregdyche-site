@@ -63,7 +63,27 @@ class Post(models.Model):
     
     # SEO and social
     meta_description = models.CharField(max_length=160, blank=True)
-    featured_image = models.URLField(blank=True, help_text="URL to featured image")
+    featured_image = models.URLField(blank=True, help_text="URL to featured image (legacy)")
+    
+    # Image uploads
+    featured_image_upload = models.ImageField(
+        upload_to='posts/featured/%Y/%m/', 
+        blank=True, 
+        null=True,
+        help_text="Upload featured image (recommended)"
+    )
+    thumbnail_image = models.ImageField(
+        upload_to='posts/thumbnails/%Y/%m/', 
+        blank=True, 
+        null=True,
+        help_text="Upload thumbnail image"
+    )
+    banner_image = models.ImageField(
+        upload_to='posts/banners/%Y/%m/', 
+        blank=True, 
+        null=True,
+        help_text="Upload banner image"
+    )
     
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -74,6 +94,26 @@ class Post(models.Model):
     
     def get_absolute_url(self):
         return reverse('blog:post_detail', kwargs={'slug': self.slug})
+    
+    def get_featured_image_url(self):
+        """Return the best available featured image URL"""
+        if self.featured_image_upload:
+            return self.featured_image_upload.url
+        elif self.featured_image:
+            return self.featured_image
+        return None
+    
+    def get_thumbnail_url(self):
+        """Return thumbnail or fallback to featured image"""
+        if self.thumbnail_image:
+            return self.thumbnail_image.url
+        return self.get_featured_image_url()
+    
+    def get_banner_url(self):
+        """Return banner image URL"""
+        if self.banner_image:
+            return self.banner_image.url
+        return self.get_featured_image_url()
     
     def __str__(self):
         return self.title
@@ -123,6 +163,20 @@ class Page(models.Model):
     # SEO
     meta_description = models.CharField(max_length=160, blank=True)
     
+    # Image uploads
+    featured_image = models.ImageField(
+        upload_to='pages/featured/%Y/%m/', 
+        blank=True, 
+        null=True,
+        help_text="Upload featured image"
+    )
+    banner_image = models.ImageField(
+        upload_to='pages/banners/%Y/%m/', 
+        blank=True, 
+        null=True,
+        help_text="Upload banner image"
+    )
+    
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
@@ -130,6 +184,18 @@ class Page(models.Model):
     
     def get_absolute_url(self):
         return reverse('blog:page_detail', kwargs={'slug': self.slug})
+    
+    def get_featured_image_url(self):
+        """Return featured image URL"""
+        if self.featured_image:
+            return self.featured_image.url
+        return None
+    
+    def get_banner_url(self):
+        """Return banner image URL"""
+        if self.banner_image:
+            return self.banner_image.url
+        return self.get_featured_image_url()
     
     def __str__(self):
         return self.title

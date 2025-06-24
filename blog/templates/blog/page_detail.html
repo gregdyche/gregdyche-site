@@ -38,6 +38,14 @@
     <!-- Main Content Card -->
     <div class="grid grid-cols-1">
         <article class="card">
+            <!-- Featured Image -->
+            {% if page.get_featured_image_url and page.slug != "well-scripted-life-by-greg-dyche" %}
+            <div class="featured-image-container" style="margin-bottom: 2rem;">
+                <img src="{{ page.get_featured_image_url }}" alt="{{ page.title }}" 
+                     style="width: 100%; height: 300px; object-fit: cover; border-radius: 8px;">
+            </div>
+            {% endif %}
+            
             {% if page.slug != "well-scripted-life-by-greg-dyche" and not is_homepage %}
             <header class="card-header">
                 <h1 class="card-title" data-editable="title">{{ page.title }}</h1>
