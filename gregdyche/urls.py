@@ -18,7 +18,7 @@ from blog.models import Page
 def home(request):
     # Load the homepage Page object and render with editing capability
     try:
-        homepage = get_object_or_404(Page, slug='homepage', is_published=True)
+        homepage = get_object_or_404(Page, slug='well-scripted-life-by-greg-dyche', is_published=True)
         context = {
             'page': homepage,
             'is_homepage': True,  # Special flag for template
