@@ -35,7 +35,7 @@
     <!-- Main Content Card -->
     <div class="grid grid-cols-1">
         <article class="card">
-            {% if page.slug != "well-scripted-life-by-greg-dyche" %}
+            {% if page.slug != "well-scripted-life-by-greg-dyche" and not is_homepage %}
             <header class="card-header">
                 <h1 class="card-title" data-editable="title">{{ page.title }}</h1>
                 {% if page.published_date %}
@@ -44,7 +44,8 @@
             </header>
             {% endif %}
             
-            <!-- Subscribe Button -->
+            <!-- Subscribe Button (not shown on homepage since it has its own) -->
+            {% if not is_homepage %}
             <div class="subscribe-cta">
                 <div class="subscribe-cta-content">
                     <div class="subscribe-cta-text">
@@ -56,6 +57,7 @@
                     </a>
                 </div>
             </div>
+            {% endif %}
             
             <div class="card-content" data-editable="content">
                 {{ page.content|safe }}

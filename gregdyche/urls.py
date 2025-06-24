@@ -14,10 +14,19 @@ from django.conf import settings
 from django.shortcuts import redirect, render, get_object_or_404
 from blog.models import Page
 
-# This function must be defined to be used below
+# This function must be defined to be used below  
 def home(request):
-    # Serve a custom homepage with Slow and Faithful content
-    return render(request, 'blog/homepage.html')
+    # Load the homepage Page object and render with editing capability
+    try:
+        homepage = get_object_or_404(Page, slug='homepage', is_published=True)
+        context = {
+            'page': homepage,
+            'is_homepage': True,  # Special flag for template
+        }
+        return render(request, 'blog/page_detail.html', context)
+    except Page.DoesNotExist:
+        # Fallback to static template if Page doesn't exist
+        return render(request, 'blog/homepage.html')
 
 # This function must also be defined to be used below
 def debug_view(request):
