@@ -220,9 +220,17 @@ def coaching_inquiry(request):
             from django.core.mail import send_mail
             from django.conf import settings
             
-            subject = f'Coaching Inquiry from {name}'
+            # Determine if this came from contact or coaching page
+            referer = request.META.get('HTTP_REFERER', '')
+            if 'contact' in referer:
+                subject = f'Contact Form Message from {name}'
+                form_source = 'contact form'
+            else:
+                subject = f'Coaching Inquiry from {name}'
+                form_source = 'coaching form'
+            
             email_message = f"""
-New coaching inquiry received:
+New {form_source} submission received:
 
 Name: {name}
 Email: {email}
@@ -232,7 +240,7 @@ Message:
 {message}
 
 ---
-Sent from Well Scripted Life coaching form
+Sent from Well Scripted Life {form_source}
 """
             
             try:
@@ -249,8 +257,12 @@ Sent from Well Scripted Life coaching form
             except Exception as e:
                 messages.error(request, 'There was an error sending your message. Please try emailing me directly at gregdyche@gmail.com')
             
-            # Redirect back to coaching page
-            return redirect('/blog/page/coaching/')
+            # Redirect back to the referring page (coaching or contact)
+            referer = request.META.get('HTTP_REFERER', '/blog/page/coaching/')
+            if 'contact' in referer:
+                return redirect('/blog/page/contact/')
+            else:
+                return redirect('/blog/page/coaching/')
     else:
         form = CoachingInquiryForm()
     
