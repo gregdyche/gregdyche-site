@@ -98,6 +98,57 @@
                 {% endif %}
                 
                 {{ page.content|safe }}
+                
+                <!-- Coaching Contact Form (only show on coaching page) -->
+                {% if page.slug == "coaching" %}
+                <section style="margin-bottom: 4rem; background: rgba(255, 255, 255, 0.1); padding: 3rem 2rem; border-radius: 12px;">
+                    <div style="max-width: 600px; margin: 0 auto;">
+                        <h2 style="font-size: 2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1rem; text-align: center;">
+                            Get Started
+                        </h2>
+                        <p style="color: var(--text-secondary); margin-bottom: 2rem; text-align: center;">
+                            Tell me about your challenge or goal, and I'll get back to you within 24 hours.
+                        </p>
+                        
+                        <form method="post" action="/blog/coaching-inquiry/" style="display: grid; gap: 1.5rem;">
+                            {% csrf_token %}
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div>
+                                    <label style="display: block; color: var(--text-primary); font-weight: 600; margin-bottom: 0.5rem;">Name</label>
+                                    <input type="text" name="name" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; background: rgba(255,255,255,0.1); color: var(--text-primary);">
+                                </div>
+                                <div>
+                                    <label style="display: block; color: var(--text-primary); font-weight: 600; margin-bottom: 0.5rem;">Email</label>
+                                    <input type="email" name="email" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; background: rgba(255,255,255,0.1); color: var(--text-primary);">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label style="display: block; color: var(--text-primary); font-weight: 600; margin-bottom: 0.5rem;">I'm interested in:</label>
+                                <select name="interest" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; background: rgba(255,255,255,0.1); color: var(--text-primary);">
+                                    <option value="private">Private Session</option>
+                                    <option value="business">Business Lunch & Learn</option>
+                                    <option value="custom">Something Custom</option>
+                                    <option value="exploring">Just Exploring</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label style="display: block; color: var(--text-primary); font-weight: 600; margin-bottom: 0.5rem;">Tell me about your challenge or goal:</label>
+                                <textarea name="message" rows="4" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; background: rgba(255,255,255,0.1); color: var(--text-primary); resize: vertical;"></textarea>
+                            </div>
+                            
+                            <button type="submit" style="background: var(--spirit-accent); color: var(--creighton-navy); padding: 1rem 2rem; border: none; border-radius: 6px; font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.2s ease;">
+                                Send Message
+                            </button>
+                        </form>
+                        
+                        <p style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-muted);">
+                            Or email me directly: <a href="mailto:gregdyche@gmail.com?subject=Coaching Inquiry" style="color: var(--spirit-accent);">gregdyche@gmail.com</a>
+                        </p>
+                    </div>
+                </section>
+                {% endif %}
             </div>
         </article>
     </div>
