@@ -14,10 +14,13 @@
   --creighton-pale: #95D2F3;      /* Light Blue */
   --creighton-gold: #FFC72C;      /* Gold accent */
   
-  /* Blog Section Colors */
-  --tech-accent: var(--creighton-navy);    /* Dark Navy for Tech */
-  --life-accent: var(--creighton-light);   /* Lighter Blue for Life */
-  --spirit-accent: var(--creighton-gold);  /* Gold for Spirit */
+  /* Blog Section Colors - High contrast and distinctive */
+  --tech-accent: #ffffff;                  /* White for Tech (high contrast) */
+  --tech-secondary: #e0e0e0;              /* Light gray for Tech secondary */
+  --life-accent: var(--creighton-gold);   /* Gold for Life (warm, energetic) */
+  --life-secondary: #ffeb3b;              /* Bright yellow for Life secondary */
+  --spirit-accent: var(--creighton-pale); /* Light Blue for Spirit (calm, peaceful) */
+  --spirit-secondary: #bbdefb;            /* Very light blue for Spirit secondary */
   
   /* Legacy color names for compatibility */
   --accent-purple: var(--creighton-navy);
@@ -847,105 +850,210 @@ h1, h2, h3, h4, h5, h6 {
    Blog Section Specific Styling
    ============================================================================= */
 
-/* Tech Blog Section */
+/* Tech Blog Section - Minimalist, High-Tech Feel */
 .blog-section-tech,
 body[data-section="tech"] {
   --section-accent: var(--tech-accent);
+  --section-secondary: var(--tech-secondary);
+}
+
+/* Tech section gets subtle geometric patterns and clean lines */
+body[data-section="tech"] {
+  background-image: 
+    linear-gradient(45deg, rgba(255,255,255,0.03) 25%, transparent 25%), 
+    linear-gradient(-45deg, rgba(255,255,255,0.03) 25%, transparent 25%);
+  background-size: 60px 60px;
+  background-position: 0 0, 0 30px;
+}
+
+.blog-section-tech .card,
+body[data-section="tech"] .card {
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
 }
 
 .blog-section-tech .card-title,
-.blog-section-tech .btn-primary,
 .blog-section-tech .navbar-brand,
 body[data-section="tech"] .card-title,
-body[data-section="tech"] .btn-primary,
 body[data-section="tech"] .navbar-brand {
   color: var(--tech-accent);
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
 
 .blog-section-tech .btn-primary,
 body[data-section="tech"] .btn-primary {
   background: var(--tech-accent);
-  border-color: var(--tech-accent);
-  color: white;
+  border: 2px solid var(--tech-accent);
+  color: var(--primary-bg);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .blog-section-tech .btn-primary:hover,
 body[data-section="tech"] .btn-primary:hover {
-  background: #001a4a;
-  border-color: #001a4a;
+  background: var(--tech-secondary);
+  border-color: var(--tech-secondary);
+  color: var(--primary-bg);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255,255,255,0.3);
 }
 
-/* Life Blog Section */
+/* Life Blog Section - Warm, Energetic Feel */
 .blog-section-life,
 body[data-section="life"] {
   --section-accent: var(--life-accent);
+  --section-secondary: var(--life-secondary);
+}
+
+/* Life section gets warm gradient overlay */
+body[data-section="life"] {
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(255, 199, 44, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 235, 59, 0.08) 0%, transparent 50%);
+}
+
+.blog-section-life .card,
+body[data-section="life"] .card {
+  border: 2px solid rgba(255, 199, 44, 0.3);
+  background: rgba(255, 199, 44, 0.1);
+  box-shadow: 0 4px 20px rgba(255, 199, 44, 0.15);
+}
+
+.blog-section-life .card:hover,
+body[data-section="life"] .card:hover {
+  border-color: rgba(255, 199, 44, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(255, 199, 44, 0.25);
 }
 
 .blog-section-life .card-title,
-.blog-section-life .btn-primary,
 .blog-section-life .navbar-brand,
 body[data-section="life"] .card-title,
-body[data-section="life"] .btn-primary,
 body[data-section="life"] .navbar-brand {
   color: var(--life-accent);
+  font-weight: 700;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
 }
 
 .blog-section-life .btn-primary,
 body[data-section="life"] .btn-primary {
-  background: var(--life-accent);
-  border-color: var(--life-accent);
-  color: white;
+  background: linear-gradient(135deg, var(--life-accent), var(--life-secondary));
+  border: none;
+  color: var(--creighton-navy);
+  font-weight: 700;
+  border-radius: 25px;
+  padding: 0.75rem 1.5rem;
 }
 
 .blog-section-life .btn-primary:hover,
 body[data-section="life"] .btn-primary:hover {
-  background: #1560c4;
-  border-color: #1560c4;
+  background: linear-gradient(135deg, var(--life-secondary), var(--life-accent));
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 20px rgba(255, 199, 44, 0.4);
 }
 
-/* Spirit Blog Section */
+/* Spirit Blog Section - Calm, Peaceful Feel */
 .blog-section-spirit,
 body[data-section="spirit"] {
   --section-accent: var(--spirit-accent);
+  --section-secondary: var(--spirit-secondary);
+}
+
+/* Spirit section gets flowing, organic patterns */
+body[data-section="spirit"] {
+  background-image: 
+    radial-gradient(ellipse at top left, rgba(149, 210, 243, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom right, rgba(187, 222, 251, 0.1) 0%, transparent 50%),
+    linear-gradient(45deg, transparent 40%, rgba(149, 210, 243, 0.05) 50%, transparent 60%);
+}
+
+.blog-section-spirit .card,
+body[data-section="spirit"] .card {
+  border: 1px solid rgba(149, 210, 243, 0.4);
+  background: rgba(149, 210, 243, 0.08);
+  border-radius: 15px;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+}
+
+.blog-section-spirit .card:hover,
+body[data-section="spirit"] .card:hover {
+  border-color: rgba(149, 210, 243, 0.6);
+  background: rgba(149, 210, 243, 0.12);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(149, 210, 243, 0.2);
 }
 
 .blog-section-spirit .card-title,
-.blog-section-spirit .btn-primary,
 .blog-section-spirit .navbar-brand,
 body[data-section="spirit"] .card-title,
-body[data-section="spirit"] .btn-primary,
 body[data-section="spirit"] .navbar-brand {
   color: var(--spirit-accent);
+  font-weight: 500;
+  font-family: Georgia, serif;
+  letter-spacing: 0.3px;
 }
 
 .blog-section-spirit .btn-primary,
 body[data-section="spirit"] .btn-primary {
-  background: var(--spirit-accent);
-  border-color: var(--spirit-accent);
-  color: var(--creighton-navy); /* Dark text on gold background */
+  background: rgba(149, 210, 243, 0.9);
+  border: 2px solid rgba(149, 210, 243, 0.5);
+  color: var(--creighton-navy);
+  font-weight: 500;
+  border-radius: 30px;
+  padding: 0.75rem 2rem;
+  backdrop-filter: blur(10px);
 }
 
 .blog-section-spirit .btn-primary:hover,
 body[data-section="spirit"] .btn-primary:hover {
-  background: #e6b025;
-  border-color: #e6b025;
+  background: var(--spirit-secondary);
+  border-color: var(--spirit-secondary);
   color: var(--creighton-navy);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(149, 210, 243, 0.3);
 }
 
 /* Section-specific accents for links and highlights */
 .blog-section-tech a:not(.btn),
 body[data-section="tech"] a:not(.btn) {
   color: var(--tech-accent);
+  text-decoration: underline;
+  text-decoration-color: rgba(255,255,255,0.5);
+}
+
+.blog-section-tech a:not(.btn):hover,
+body[data-section="tech"] a:not(.btn):hover {
+  color: var(--tech-secondary);
+  text-decoration-color: var(--tech-secondary);
 }
 
 .blog-section-life a:not(.btn),
 body[data-section="life"] a:not(.btn) {
   color: var(--life-accent);
+  font-weight: 600;
+}
+
+.blog-section-life a:not(.btn):hover,
+body[data-section="life"] a:not(.btn):hover {
+  color: var(--life-secondary);
+  text-shadow: 0 0 8px rgba(255, 199, 44, 0.5);
 }
 
 .blog-section-spirit a:not(.btn),
 body[data-section="spirit"] a:not(.btn) {
   color: var(--spirit-accent);
+  text-decoration: none;
+  border-bottom: 1px dotted rgba(149, 210, 243, 0.6);
+}
+
+.blog-section-spirit a:not(.btn):hover,
+body[data-section="spirit"] a:not(.btn):hover {
+  color: var(--spirit-secondary);
+  border-bottom-color: var(--spirit-secondary);
 }
 
 /* Subscribe button accent colors */
