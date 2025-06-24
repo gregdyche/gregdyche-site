@@ -76,6 +76,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'ckeditor',
+    'ckeditor_uploader',
     'blog.apps.BlogConfig',
 ]
 
@@ -207,4 +209,74 @@ ADMIN_EMAIL = config('ADMIN_EMAIL', default='gregdyche@creighton.edu')
 
 # Email for notifications about new subscriptions
 SUBSCRIPTION_NOTIFICATION_EMAIL = ADMIN_EMAIL
+
+
+# --- CKEditor Configuration ---
+
+# CKEditor file upload path
+CKEDITOR_UPLOAD_PATH = "uploads/ckeditor/"
+
+# CKEditor configuration
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Full',
+        'height': 400,
+        'width': '100%',
+        'toolbar_Full': [
+            ['Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates'],
+            ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'],
+            ['Find', 'Replace', '-', 'SelectAll'],
+            ['Scayt'],
+            '/',
+            ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl'],
+            ['Link', 'Unlink', 'Anchor'],
+            ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe'],
+            '/',
+            ['Styles', 'Format', 'Font', 'FontSize'],
+            ['TextColor', 'BGColor'],
+            ['Maximize', 'ShowBlocks'],
+        ],
+        'extraPlugins': ','.join([
+            'uploadimage',
+            'div',
+            'autolink',
+            'autoembed',
+            'embedsemantic',
+            'autogrow',
+            'widget',
+            'lineutils',
+            'clipboard',
+            'dialog',
+            'dialogui',
+            'elementspath'
+        ]),
+    },
+    'blog': {
+        'toolbar': 'Blog',
+        'height': 500,
+        'width': '100%',
+        'toolbar_Blog': [
+            ['Bold', 'Italic', 'Underline', '-', 'RemoveFormat'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote'],
+            ['Link', 'Unlink'],
+            ['Image', 'Table', 'HorizontalRule'],
+            '/',
+            ['Format', 'FontSize'],
+            ['TextColor', 'BGColor'],
+            ['Source', 'Maximize'],
+        ],
+        'format_tags': 'p;h1;h2;h3;h4;h5;h6;pre;address;div',
+        'extraPlugins': ','.join([
+            'uploadimage',
+            'autogrow',
+            'widget',
+            'lineutils',
+            'clipboard',
+            'dialog',
+            'dialogui',
+            'elementspath'
+        ]),
+    }
+}
 

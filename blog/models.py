@@ -7,6 +7,7 @@ from django.db import models
 from django.utils import timezone
 from django.urls import reverse
 from django.utils.text import slugify
+from ckeditor.fields import RichTextField
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -45,7 +46,7 @@ class Post(models.Model):
     
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique=True, blank=True)
-    content = models.TextField()
+    content = RichTextField(config_name='blog')
     excerpt = models.TextField(blank=True, help_text="Brief description of the post")
     
     # WordPress import fields
@@ -144,7 +145,7 @@ class Page(models.Model):
     """Static pages like About, Contact, etc."""
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique=True, blank=True)
-    content = models.TextField()
+    content = RichTextField(config_name='blog')
     
     # TOC organization
     category = models.ForeignKey(PageCategory, on_delete=models.SET_NULL, null=True, blank=True, 

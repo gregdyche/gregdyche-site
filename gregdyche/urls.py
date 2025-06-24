@@ -52,6 +52,7 @@ urlpatterns = [
     path('', home, name='home'),
     path('admin/', admin.site.urls),
     path('debug-view/', debug_view, name='debug_view'),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
     path('blog/', include('blog.urls', namespace='blog')),
 ]
 

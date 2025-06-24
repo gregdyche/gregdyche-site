@@ -1,0 +1,113 @@
+/* Enhanced Admin Interface for Blog */
+
+/* Image preview styling */
+.field-featured_image_preview img,
+.field-thumbnail_preview img,
+.field-banner_preview img {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border: 1px solid #ddd;
+    margin: 10px 0;
+}
+
+/* Image upload fields */
+.field-featured_image_upload,
+.field-thumbnail_image,
+.field-banner_image,
+.field-featured_image {
+    margin-bottom: 20px;
+}
+
+/* Fieldset styling for better organization */
+.fieldset-images {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    padding: 15px;
+    margin: 10px 0;
+}
+
+.fieldset-images h2 {
+    color: #495057;
+    background: none;
+    border: none;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* List view image thumbnails */
+.admin-thumbnail {
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+/* Content textarea styling */
+#id_content {
+    font-family: Monaco, 'Lucida Console', monospace;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* Better spacing for form sections */
+.form-row.field-featured_image_upload,
+.form-row.field-thumbnail_image,
+.form-row.field-banner_image {
+    clear: both;
+    margin-top: 15px;
+}
+
+/* Preview sections */
+.form-row.field-featured_image_preview,
+.form-row.field-thumbnail_preview,
+.form-row.field-banner_preview {
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 4px;
+}
+
+/* Help text styling */
+.fieldset .description {
+    color: #6c757d;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+/* Status indicators */
+.list-display .status-published {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.list-display .status-draft {
+    color: #ffc107;
+    font-weight: bold;
+}
+
+.list-display .status-private {
+    color: #6c757d;
+    font-weight: bold;
+}
+
+/* Image upload drag and drop styling */
+.file-upload {
+    border: 2px dashed #e9ecef;
+    border-radius: 4px;
+    padding: 20px;
+    text-align: center;
+    transition: border-color 0.3s ease;
+}
+
+.file-upload:hover {
+    border-color: #007cba;
+}
+
+/* Make admin responsive for images */
+@media (max-width: 768px) {
+    .field-featured_image_preview img,
+    .field-thumbnail_preview img,
+    .field-banner_preview img {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+}
