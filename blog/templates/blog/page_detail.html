@@ -20,6 +20,10 @@
 </script>
 <script src="{% static 'blog/js/frontend-editor.js' %}"></script>
 {% endif %}
+<script>
+    // Set page slug data attribute for CSS targeting
+    document.body.dataset.pageSlug = '{{ page.slug }}';
+</script>
 {% endblock %}
 
 {% block content %}
