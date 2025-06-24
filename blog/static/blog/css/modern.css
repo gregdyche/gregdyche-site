@@ -474,7 +474,7 @@ body {
 
 .toc-header h3 {
   margin: 0;
-  color: var(--text-primary);
+  color: #ffffff;
   font-size: 1.25rem;
   font-weight: 600;
 }
@@ -482,7 +482,7 @@ body {
 .toc-close {
   background: none;
   border: none;
-  color: var(--text-secondary);
+  color: #ffffff;
   font-size: 1.5rem;
   cursor: pointer;
   padding: var(--space-1);
@@ -492,7 +492,7 @@ body {
 }
 
 .toc-close:hover {
-  color: var(--text-primary);
+  color: #ffffff;
   background: var(--border-color);
 }
 
@@ -505,7 +505,7 @@ body {
 }
 
 .toc-category {
-  color: var(--accent-purple);
+  color: #ffffff;
   font-size: 1rem;
   font-weight: 600;
   margin: 0 0 var(--space-4) 0;
@@ -536,7 +536,7 @@ body {
 
 .toc-link {
   display: block;
-  color: var(--text-secondary);
+  color: #ffffff;
   text-decoration: none;
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-sm);
@@ -546,7 +546,7 @@ body {
 }
 
 .toc-link:hover {
-  color: var(--text-primary);
+  color: #ffffff;
   background: var(--border-color);
   transform: translateX(4px);
 }
@@ -594,9 +594,9 @@ body {
 
 .toc-category-count {
   font-size: 0.75rem;
-  color: var(--text-muted);
+  color: rgba(255, 255, 255, 0.7);
   font-weight: normal;
-  opacity: 0.7;
+  opacity: 0.8;
 }
 
 .toc-list-collapsible {
