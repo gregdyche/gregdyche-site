@@ -1109,3 +1109,14 @@ body[data-section="spirit"] .subscribe-cta-button:hover {
   border-color: var(--spirit-accent) !important;
   color: var(--creighton-navy) !important;
 }
+
+/* Services/Coaching page button - white text for readability */
+body[data-page-slug="services"] .subscribe-cta-button,
+.page-services .subscribe-cta-button {
+  color: #ffffff !important;
+}
+
+body[data-page-slug="services"] .subscribe-cta-button:hover,
+.page-services .subscribe-cta-button:hover {
+  color: #ffffff !important;
+}
