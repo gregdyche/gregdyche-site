@@ -44,8 +44,8 @@
             </header>
             {% endif %}
             
-            <!-- Subscribe Button (not shown on homepage since it has its own) -->
-            {% if not is_homepage %}
+            <!-- Subscribe Button (not shown on homepage or services page) -->
+            {% if not is_homepage and page.slug != "services" %}
             <div class="subscribe-cta">
                 <div class="subscribe-cta-content">
                     <div class="subscribe-cta-text">
@@ -54,6 +54,21 @@
                     </div>
                     <a href="/blog/subscribe/" class="subscribe-cta-button">
                         Subscribe Now
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Email Me Button for Services Page -->
+            {% if page.slug == "services" %}
+            <div class="subscribe-cta">
+                <div class="subscribe-cta-content">
+                    <div class="subscribe-cta-text">
+                        <h3>📧 Ready to discuss your project?</h3>
+                        <p>Let's explore how I can help you achieve your goals</p>
+                    </div>
+                    <a href="mailto:gregdyche@gmail.com?subject=Consulting Inquiry" class="subscribe-cta-button">
+                        Email Me
                     </a>
                 </div>
             </div>

@@ -1084,10 +1084,17 @@ body[data-section="spirit"] .hero-title {
   transition: all 0.2s ease;
 }
 
+/* Tech blog subscribe button - blue text on white background */
+.blog-section-tech .subscribe-cta-button,
+body[data-section="tech"] .subscribe-cta-button {
+  color: var(--primary-bg) !important;
+}
+
 .blog-section-tech .subscribe-cta-button:hover,
 body[data-section="tech"] .subscribe-cta-button:hover {
   background: var(--tech-accent) !important;
   border-color: var(--tech-accent) !important;
+  color: var(--primary-bg) !important;
 }
 
 .blog-section-life .subscribe-cta-button:hover,
