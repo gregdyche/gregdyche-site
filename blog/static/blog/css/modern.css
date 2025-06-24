@@ -877,7 +877,7 @@ body[data-section="tech"] .card {
 .blog-section-tech .navbar-brand,
 body[data-section="tech"] .card-title,
 body[data-section="tech"] .navbar-brand {
-  color: var(--tech-accent);
+  color: #ffffff;
   font-weight: 600;
   text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
@@ -933,7 +933,7 @@ body[data-section="life"] .card:hover {
 .blog-section-life .navbar-brand,
 body[data-section="life"] .card-title,
 body[data-section="life"] .navbar-brand {
-  color: var(--life-accent);
+  color: #ffffff;
   font-weight: 700;
   text-shadow: 0 1px 3px rgba(0,0,0,0.5);
 }
@@ -991,7 +991,7 @@ body[data-section="spirit"] .card:hover {
 .blog-section-spirit .navbar-brand,
 body[data-section="spirit"] .card-title,
 body[data-section="spirit"] .navbar-brand {
-  color: var(--spirit-accent);
+  color: #ffffff;
   font-weight: 500;
   font-family: Georgia, serif;
   letter-spacing: 0.3px;
@@ -1054,6 +1054,29 @@ body[data-section="spirit"] a:not(.btn) {
 body[data-section="spirit"] a:not(.btn):hover {
   color: var(--spirit-secondary);
   border-bottom-color: var(--spirit-secondary);
+}
+
+/* Override heading colors for better contrast in all blog sections */
+.blog-section-tech h1, .blog-section-tech h2, .blog-section-tech h3,
+.blog-section-life h1, .blog-section-life h2, .blog-section-life h3,
+.blog-section-spirit h1, .blog-section-spirit h2, .blog-section-spirit h3,
+body[data-section="tech"] h1, body[data-section="tech"] h2, body[data-section="tech"] h3,
+body[data-section="life"] h1, body[data-section="life"] h2, body[data-section="life"] h3,
+body[data-section="spirit"] h1, body[data-section="spirit"] h2, body[data-section="spirit"] h3 {
+  color: #ffffff !important;
+}
+
+/* Hero titles for blog sections */
+.blog-section-tech .hero-title,
+.blog-section-life .hero-title,
+.blog-section-spirit .hero-title,
+body[data-section="tech"] .hero-title,
+body[data-section="life"] .hero-title,
+body[data-section="spirit"] .hero-title {
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  color: #ffffff !important;
 }
 
 /* Subscribe button accent colors */
