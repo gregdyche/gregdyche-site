@@ -1110,17 +1110,23 @@ body[data-section="spirit"] .subscribe-cta-button:hover {
   color: var(--creighton-navy) !important;
 }
 
-/* Coaching page button - blue text on white background */
+/* Coaching and About page buttons - blue text on white background */
 body[data-page-slug="coaching"] .subscribe-cta-button,
+body[data-page-slug="about"] .subscribe-cta-button,
 .page-coaching .subscribe-cta-button,
-[data-page-slug="coaching"] .subscribe-cta-button {
+.page-about .subscribe-cta-button,
+[data-page-slug="coaching"] .subscribe-cta-button,
+[data-page-slug="about"] .subscribe-cta-button {
   color: var(--primary-bg) !important;
   background: white !important;
 }
 
 body[data-page-slug="coaching"] .subscribe-cta-button:hover,
+body[data-page-slug="about"] .subscribe-cta-button:hover,
 .page-coaching .subscribe-cta-button:hover,
-[data-page-slug="coaching"] .subscribe-cta-button:hover {
+.page-about .subscribe-cta-button:hover,
+[data-page-slug="coaching"] .subscribe-cta-button:hover,
+[data-page-slug="about"] .subscribe-cta-button:hover {
   color: var(--primary-bg) !important;
   background: white !important;
 }
