@@ -43,11 +43,25 @@ class FrontendEditor {
                     <span class="icon">❌</span>
                     <span class="text">Cancel</span>
                 </button>
+                <button class="toolbar-button toolbar-minimize" id="minimize-toolbar" title="Hide toolbar">
+                    <span class="icon">−</span>
+                </button>
                 <div class="toolbar-status" id="edit-status"></div>
             </div>
         `;
         
         document.body.appendChild(this.toolbar);
+        
+        // Create minimized toolbar button
+        this.minimizedButton = document.createElement('div');
+        this.minimizedButton.className = 'frontend-editor-minimized';
+        this.minimizedButton.innerHTML = `
+            <button class="toolbar-button" id="show-toolbar" title="Show editing toolbar">
+                <span class="icon">✏️</span>
+            </button>
+        `;
+        this.minimizedButton.style.display = 'none';
+        document.body.appendChild(this.minimizedButton);
     }
 
     attachEventListeners() {
@@ -62,6 +76,14 @@ class FrontendEditor {
 
         document.getElementById('cancel-edit').addEventListener('click', () => {
             this.cancelEdit();
+        });
+
+        document.getElementById('minimize-toolbar').addEventListener('click', () => {
+            this.hideToolbar();
+        });
+
+        document.getElementById('show-toolbar').addEventListener('click', () => {
+            this.showToolbar();
         });
 
         // Global key bindings
@@ -224,6 +246,22 @@ class FrontendEditor {
             this.richTextToolbar.remove();
             this.richTextToolbar = null;
         }
+    }
+
+    hideToolbar() {
+        // Don't hide if actively editing
+        if (this.isEditing) {
+            this.showMessage('Please save or cancel your changes first', 'warning');
+            return;
+        }
+        
+        this.toolbar.style.display = 'none';
+        this.minimizedButton.style.display = 'block';
+    }
+
+    showToolbar() {
+        this.toolbar.style.display = 'block';
+        this.minimizedButton.style.display = 'none';
     }
 
     async saveChanges() {
