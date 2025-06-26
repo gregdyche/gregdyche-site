@@ -232,6 +232,8 @@ def coaching_inquiry(request):
 
             from django.core.mail import send_mail
             from django.conf import settings
+            import requests # For Google Chat
+            import json     # For Google Chat
             
             subject = f'New {form_source} message from {name}'
             
@@ -258,6 +260,8 @@ Sent from Well Scripted Life {form_source} (Referer: {referer})
                     fail_silently=False,
                 )
                 messages.success(request, 'Thank you! Your message has been sent. I\'ll get back to you soon.')
+
+main
             except Exception as e:
                 messages.error(request, f'There was an error sending your message: {e}. Please try emailing me directly.')
             
