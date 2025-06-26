@@ -261,6 +261,22 @@ Sent from Well Scripted Life {form_source} (Referer: {referer})
                 )
                 messages.success(request, 'Thank you! Your message has been sent. I\'ll get back to you soon.')
 
+                # Google Chat Notification Logic
+                if settings.GOOGLE_CHAT_WEBHOOK_URL:
+                    chat_message_payload = {
+                        "text": (
+                            f"New message from {name} ({email}) via {form_source}:\n"
+                            f"*Interest:* {interest_display}\n"
+                            f"*Message:* {message_content}"
+                        )
+                    }
+                    try:
+                        requests.post(settings.GOOGLE_CHAT_WEBHOOK_URL, json=chat_message_payload, timeout=5)
+                    except requests.exceptions.RequestException as chat_e:
+                        # Log the error but don't let it affect the user's experience
+                        # In a production environment, consider using proper logging instead of print
+                        print(f"Error sending Google Chat notification: {chat_e}")
+
             except Exception as e:
                 messages.error(request, f'There was an error sending your message: {e}. Please try emailing me directly.')
             
