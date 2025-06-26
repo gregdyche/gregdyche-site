@@ -210,6 +210,11 @@ ADMIN_EMAIL = config('ADMIN_EMAIL', default='gregdyche@creighton.edu')
 # Email for notifications about new subscriptions
 SUBSCRIPTION_NOTIFICATION_EMAIL = ADMIN_EMAIL
 
+# Google Chat Webhook URL for contact form notifications
+# User needs to generate this URL from their Google Chat space
+# and add it to their environment variables (e.g., .env file for local, Railway secrets for production).
+GOOGLE_CHAT_WEBHOOK_URL = config('GOOGLE_CHAT_WEBHOOK_URL', default=None)
+
 
 # --- CKEditor Configuration ---
 

@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 import json
 from .models import Post, Page, Category, Subscriber
-from .forms import SubscriptionForm, CoachingInquiryForm
+from .forms import SubscriptionForm, CoachingInquiryForm, ContactPageInquiryForm
 from .utils import send_subscription_notification, send_welcome_email
 
 class PostDetailView(DetailView):
@@ -206,65 +206,94 @@ def edit_page_content(request, page_id):
 
 
 def coaching_inquiry(request):
-    """Handle coaching inquiry form submissions"""
+    """Handle coaching and contact form submissions"""
+    referer = request.META.get('HTTP_REFERER', '')
+    is_contact_page_submission = 'contact' in referer
+
     if request.method == 'POST':
-        form = CoachingInquiryForm(request.POST)
+        if is_contact_page_submission:
+            form = ContactPageInquiryForm(request.POST)
+            form_source = 'contact form'
+            success_redirect_url = '/blog/page/contact/'
+            interest_choices = dict(ContactPageInquiryForm.INTEREST_CHOICES)
+        else:
+            form = CoachingInquiryForm(request.POST)
+            form_source = 'coaching form'
+            success_redirect_url = '/blog/page/coaching/'
+            interest_choices = dict(CoachingInquiryForm.INTEREST_CHOICES)
+
         if form.is_valid():
-            # Get form data
             name = form.cleaned_data['name']
             email = form.cleaned_data['email']
-            interest = form.cleaned_data['interest']
-            message = form.cleaned_data['message']
+            interest_key = form.cleaned_data['interest']
+            message_content = form.cleaned_data['message']
             
-            # Send email notification
+            interest_display = interest_choices.get(interest_key, interest_key) # Get display name
+
             from django.core.mail import send_mail
             from django.conf import settings
+            import requests # For Google Chat
+            import json     # For Google Chat
             
-            # Determine if this came from contact or coaching page
-            referer = request.META.get('HTTP_REFERER', '')
-            if 'contact' in referer:
-                subject = f'Contact Form Message from {name}'
-                form_source = 'contact form'
-            else:
-                subject = f'Coaching Inquiry from {name}'
-                form_source = 'coaching form'
+            subject = f'New {form_source} message from {name}'
             
-            email_message = f"""
+            email_body = f"""
 New {form_source} submission received:
 
 Name: {name}
 Email: {email}
-Interest: {dict(form.INTEREST_CHOICES)[interest]}
+Interest: {interest_display}
 
 Message:
-{message}
+{message_content}
 
 ---
-Sent from Well Scripted Life {form_source}
+Sent from Well Scripted Life {form_source} (Referer: {referer})
 """
             
             try:
                 send_mail(
                     subject,
-                    email_message,
+                    email_body,
                     settings.DEFAULT_FROM_EMAIL,
-                    ['gregdyche@gmail.com'],
+                    [settings.ADMIN_EMAIL_RECIPIENT if hasattr(settings, 'ADMIN_EMAIL_RECIPIENT') else 'gregdyche@gmail.com'], # Use setting or fallback
                     fail_silently=False,
                 )
+                messages.success(request, 'Thank you! Your message has been sent. I\'ll get back to you soon.')
                 
-                messages.success(request, 'Thank you! Your message has been sent. I\'ll get back to you within 24 hours.')
-                
+                # Send Google Chat notification
+                google_chat_webhook_url = getattr(settings, 'GOOGLE_CHAT_WEBHOOK_URL', None)
+                if google_chat_webhook_url:
+                    chat_message_text = f"🔔 *New {form_source} submission received!*\n\n*Name:* {name}\n*Email:* {email}\n*Interest:* {interest_display}\n*Message:*\n```{message_content}```\n\nRaw Referer: {referer}"
+                    google_chat_payload = {'text': chat_message_text}
+                    try:
+                        response = requests.post(
+                            google_chat_webhook_url,
+                            headers={'Content-Type': 'application/json; charset=UTF-8'},
+                            data=json.dumps(google_chat_payload),
+                            timeout=5 # Add a timeout
+                        )
+                        response.raise_for_status() # Raise an exception for bad status codes (4xx or 5xx)
+                        print(f"Successfully sent message to Google Chat for {form_source} from {name}")
+                    except requests.exceptions.Timeout:
+                        print(f"Error sending message to Google Chat: Timeout for {form_source} from {name}")
+                    except requests.exceptions.RequestException as chat_e:
+                        print(f"Error sending message to Google Chat for {form_source} from {name}: {chat_e}")
+                    except Exception as general_chat_e:
+                        print(f"An unexpected error occurred while sending to Google Chat for {form_source} from {name}: {general_chat_e}")
+                else:
+                    print("GOOGLE_CHAT_WEBHOOK_URL not configured. Skipping Google Chat notification.")
+
             except Exception as e:
-                messages.error(request, 'There was an error sending your message. Please try emailing me directly at gregdyche@gmail.com')
+                messages.error(request, f'There was an error sending your message: {e}. Please try emailing me directly.')
             
-            # Redirect back to the referring page (coaching or contact)
-            referer = request.META.get('HTTP_REFERER', '/blog/page/coaching/')
-            if 'contact' in referer:
-                return redirect('/blog/page/contact/')
-            else:
-                return redirect('/blog/page/coaching/')
+            return redirect(success_redirect_url)
+        else:
+            # Form is not valid, add errors to messages and redirect back to the original page
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field.capitalize()}: {error}")
+            return redirect(referer if referer else ('/blog/page/contact/' if is_contact_page_submission else '/blog/page/coaching/'))
     else:
-        form = CoachingInquiryForm()
-    
-    # If GET request or form errors, redirect back to coaching page
-    return redirect('/blog/page/coaching/')
+        # For GET requests, redirect to the appropriate page (though ideally, forms are on their own pages or handled by page view)
+        return redirect('/blog/page/contact/' if is_contact_page_submission else '/blog/page/coaching/')

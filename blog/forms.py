@@ -74,6 +74,45 @@ class CoachingInquiryForm(forms.Form):
             'required': True
         })
     )
+
+class ContactPageInquiryForm(forms.Form):
+    """Form for contact page inquiry submissions"""
+
+    INTEREST_CHOICES = [
+        ('ai', 'AI & Technology'),
+        ('python', 'Python Development'),
+        ('education', 'Educational Technology'),
+        ('productivity', 'Productivity Systems'),
+        ('career', 'Career & Tech Transitions'),
+        ('faith', 'Faith & Intentional Living'),
+        ('other', 'Something Else'),
+    ]
+
+    name = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={
+            'class': 'form-input',
+            'placeholder': 'Your name',
+            'required': True
+        })
+    )
+
+    interest = forms.ChoiceField(
+        choices=INTEREST_CHOICES,
+        widget=forms.Select(attrs={
+            'class': 'form-select',
+            'required': True
+        })
+    )
+
+    message = forms.CharField(
+        widget=forms.Textarea(attrs={
+            'class': 'form-textarea',
+            'rows': 4,
+            'placeholder': 'Your message...',
+            'required': True
+        })
+    )
     
     email = forms.EmailField(
         widget=forms.EmailInput(attrs={
