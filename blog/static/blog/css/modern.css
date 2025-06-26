@@ -450,7 +450,7 @@ body {
   right: -400px !important;
   width: 400px;
   height: 100vh;
-  background: var(--card-bg);
+  background: rgba(26, 26, 26, 0.95); /* Increased opacity */
   border-left: 1px solid var(--border-color);
   z-index: 1000;
   transition: right 0.3s ease;
@@ -474,15 +474,16 @@ body {
 
 .toc-header h3 {
   margin: 0;
-  color: #ffffff;
+  color: var(--text-primary); /* Use theme variable */
   font-size: 1.25rem;
   font-weight: 600;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Add text shadow */
 }
 
 .toc-close {
   background: none;
   border: none;
-  color: #ffffff;
+  color: var(--text-primary); /* Use theme variable */
   font-size: 1.5rem;
   cursor: pointer;
   padding: var(--space-1);
@@ -492,7 +493,7 @@ body {
 }
 
 .toc-close:hover {
-  color: #ffffff;
+  color: var(--text-primary); /* Use theme variable */
   background: var(--border-color);
 }
 
@@ -505,7 +506,7 @@ body {
 }
 
 .toc-category {
-  color: #ffffff;
+  color: var(--text-primary); /* Use theme variable */
   font-size: 1rem;
   font-weight: 600;
   margin: 0 0 var(--space-4) 0;
@@ -513,6 +514,7 @@ body {
   border-bottom: 1px solid var(--border-color);
   display: flex;
   align-items: center;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3); /* Add text shadow */
 }
 
 .toc-category::before {
@@ -536,18 +538,19 @@ body {
 
 .toc-link {
   display: block;
-  color: #ffffff;
+  color: var(--text-secondary); /* Use theme variable, slightly less prominent */
   text-decoration: none;
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-sm);
   transition: all 0.2s ease;
   font-size: 0.875rem;
   line-height: 1.4;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.2); /* Subtle text shadow */
 }
 
 .toc-link:hover {
-  color: #ffffff;
-  background: var(--border-color);
+  color: var(--text-primary); /* Use theme variable for hover */
+  background: var(--hover-bg); /* Use theme variable for hover background */
   transform: translateX(4px);
 }
 
