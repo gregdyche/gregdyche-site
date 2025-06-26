@@ -260,30 +260,8 @@ Sent from Well Scripted Life {form_source} (Referer: {referer})
                     fail_silently=False,
                 )
                 messages.success(request, 'Thank you! Your message has been sent. I\'ll get back to you soon.')
-                
-                # Send Google Chat notification
-                google_chat_webhook_url = getattr(settings, 'GOOGLE_CHAT_WEBHOOK_URL', None)
-                if google_chat_webhook_url:
-                    chat_message_text = f"🔔 *New {form_source} submission received!*\n\n*Name:* {name}\n*Email:* {email}\n*Interest:* {interest_display}\n*Message:*\n```{message_content}```\n\nRaw Referer: {referer}"
-                    google_chat_payload = {'text': chat_message_text}
-                    try:
-                        response = requests.post(
-                            google_chat_webhook_url,
-                            headers={'Content-Type': 'application/json; charset=UTF-8'},
-                            data=json.dumps(google_chat_payload),
-                            timeout=5 # Add a timeout
-                        )
-                        response.raise_for_status() # Raise an exception for bad status codes (4xx or 5xx)
-                        print(f"Successfully sent message to Google Chat for {form_source} from {name}")
-                    except requests.exceptions.Timeout:
-                        print(f"Error sending message to Google Chat: Timeout for {form_source} from {name}")
-                    except requests.exceptions.RequestException as chat_e:
-                        print(f"Error sending message to Google Chat for {form_source} from {name}: {chat_e}")
-                    except Exception as general_chat_e:
-                        print(f"An unexpected error occurred while sending to Google Chat for {form_source} from {name}: {general_chat_e}")
-                else:
-                    print("GOOGLE_CHAT_WEBHOOK_URL not configured. Skipping Google Chat notification.")
 
+main
             except Exception as e:
                 messages.error(request, f'There was an error sending your message: {e}. Please try emailing me directly.')
             
